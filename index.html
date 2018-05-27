@@ -497,7 +497,7 @@
                     socket.on('directions', function(dirs) {
                         for (var id in dirs) {
                             var dir = dirs[id];
-                                frame += 100
+                                frame += 1000
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
