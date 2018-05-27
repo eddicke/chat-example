@@ -99,7 +99,7 @@ io.on('connection', function(socket) {
       dir.play = true
       setTimeout(function(){
       dir.play = false
-      }, 10)
+      }, 500)
      dir.clip = "jump"
     }
   })
