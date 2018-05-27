@@ -97,8 +97,9 @@ io.on('connection', function(socket) {
     var dir = dirs[socket.id] || {};
     if(data.run){
       dir.play = true
+      data.play = data.run;
       setTimeout(function(){
-      dir.play = false
+      data.run = false
       }, 3000)
      dir.clip = "jump"
     }
