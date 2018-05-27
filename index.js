@@ -94,8 +94,10 @@ io.on('connection', function(socket) {
    socket.on('animations', function(data) {
     var dir = dirs[socket.id] || {};
     if(data.run){
-      dir.from = 450;
-      dir.to = 550;
+     // dir.from = 450;
+     // dir.to = 550;
+      dir.from = 384;
+      dir.to = 400;
     }
   })
   socket.on('getPosition', function(data) {
