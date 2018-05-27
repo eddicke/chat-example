@@ -504,7 +504,9 @@
                                 robots[dir.rnd].setEnabled(true);
                           //      if(frame%10000 == 0){
                                  //   scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
+                                if(dir.play){
                                 robots[dir.rnd].skeleton.beginAnimation(dir.clip, false, 1);
+                                }
                             //    }
                                 robots[dir.rnd].rotation.y = dir.rotY
                                 scene.meshes.forEach(function(m) {
