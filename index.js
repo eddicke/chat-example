@@ -60,6 +60,7 @@ io.on('connection', function(socket) {
       from: 0,
       to: 250,
       clip: "idle",
+      play: false,
       threshold: 1,
       vel: 0
     }
@@ -95,6 +96,7 @@ io.on('connection', function(socket) {
    socket.on('animations', function(data) {
     var dir = dirs[socket.id] || {};
     if(data.run){
+      dir.play = true
      dir.clip = "walk"
     }
   })
