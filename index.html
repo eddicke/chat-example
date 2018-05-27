@@ -493,17 +493,18 @@
                   },1000/60)
                     //initialize the new player and send data to other clients]
                     var available = []
+                    var frame = 0
                     socket.on('directions', function(dirs) {
                         for (var id in dirs) {
                             var dir = dirs[id];
-
+                                frame += 100
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
                                 //scene.beginAnimation(robots[dir.rnd].skeleton, 0, 200, true,  dir.threshold);
-                              setInterval(function(){
+                              if((frame%100)== 0){
                                scene.beginAnimation(robots[dir.rnd].skeleton, 0, 200, true,  dir.threshold);
-                              }, 3000)
+                              }
                                 robots[dir.rnd].rotation.y = dir.rotY
                                 scene.meshes.forEach(function(m) {
                                     if (m.name === dir.rnd) {
