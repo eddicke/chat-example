@@ -92,7 +92,7 @@ io.on('connection', function(socket) {
    socket.on('animations', function(data) {
     var dir = dirs[socket.id] || {};
     if(data.run){
-      dir.threshold = 16
+      dir.threshold = 2.5
     }
   })
   socket.on('getPosition', function(data) {
