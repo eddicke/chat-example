@@ -57,7 +57,7 @@ io.on('connection', function(socket) {
       move: false,
       rotY: 0,
       lastpos: {x: 0, y: 5, z: 0},
-      threshold: 1,
+      threshold: 4,
       vel: 0
     }
     //limit the number of players available
@@ -92,7 +92,7 @@ io.on('connection', function(socket) {
    socket.on('animations', function(data) {
     var dir = dirs[socket.id] || {};
     if(data.run){
-      dir.threshold = 6
+      dir.threshold = 16
     }
   })
   socket.on('getPosition', function(data) {
