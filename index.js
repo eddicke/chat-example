@@ -96,8 +96,8 @@ io.on('connection', function(socket) {
     if(data.run){
      // dir.from = 450;
      // dir.to = 550;
-      dir.from = 1000;
-      dir.to = 2000;
+      dir.from = 1;
+      dir.to = 4;
     }
   })
   socket.on('getPosition', function(data) {
