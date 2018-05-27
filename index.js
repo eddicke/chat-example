@@ -100,7 +100,7 @@ io.on('connection', function(socket) {
       setTimeout(function(){
       dir.play = false
       }, 10)
-     dir.clip = "walk"
+     dir.clip = "jump"
     }
   })
   socket.on('getPosition', function(data) {
