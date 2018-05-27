@@ -59,6 +59,7 @@ io.on('connection', function(socket) {
       lastpos: {x: 0, y: 5, z: 0},
       from: 0,
       to: 250,
+      clip: "idle",
       threshold: 1,
       vel: 0
     }
@@ -94,10 +95,7 @@ io.on('connection', function(socket) {
    socket.on('animations', function(data) {
     var dir = dirs[socket.id] || {};
     if(data.run){
-     // dir.from = 450;
-     // dir.to = 550;
-      dir.from = 750;
-      dir.to = 850;
+     dir.clip = "walk"
     }
   })
   socket.on('getPosition', function(data) {
