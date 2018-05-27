@@ -502,8 +502,9 @@
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
-                                if(frame%9000 == 0){
-                                scene.beginAnimation(robots[dir.rnd].skeleton, 0, 250, true,  dir.threshold);
+                                if(frame%10000 == 0){
+                           //     scene.beginAnimation(robots[dir.rnd].skeleton, 0, 250, true,  dir.threshold);
+                                    scene.beginAnimation(robots[dir.rnd].skeleton, 200, 250, true,  dir.threshold);
                                 }
                                 robots[dir.rnd].rotation.y = dir.rotY
                                 scene.meshes.forEach(function(m) {
