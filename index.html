@@ -119,13 +119,10 @@
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
 
-        var gui = document.createElement("script")
-        gui.src = "https://gitcdn.xyz/repo/eddicke/chat-example/master/dist/gui.js";
-        document.body.appendChild(gui)
-
         $(function() {
             var socket = io();
-            var user = 0
+            socket.emit('new player');
+
 
             //listen to keyboard event
             var movement = {
@@ -168,1132 +165,391 @@
             });
 
 
-            //////////////********************TERRAIN SCRIPT********************\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            var url = "https://cdn.rawgit.com/BabylonJS/Extensions/master/DynamicTerrain/dist/babylon.dynamicTerrain.min.js";
+
+            //////***********BABYLONJS CODE************|||||||||||||||||
+            var url = "https://cdn.rawgit.com/BabylonJS/Extensions/master/Polyhedron/polyhedra.js";
             var s = document.createElement("script");
             s.src = url;
             document.head.appendChild(s);
 
-            var url = "https://cdn.rawgit.com/waverider404/game-assets/master/dynamic-terrain(Jerome).js";
-            var s2 = document.createElement("script");
-            s2.src = url;
-            document.head.appendChild(s2);
-
-            var url2 = "https://cdn.rawgit.com/BabylonJS/Extensions/master/DynamicTerrain/dist/babylon.dynamicTerrain.min.js";
-            var s3 = document.createElement("script");
-            s3.src = url2;
-            document.head.appendChild(s3);
-            //////***********BABYLONJS CODE************|||||||||||||||||
             var createScene = function() {
-
-                // This creates a basic Babylon Scene object (non-mesh)
                 var scene = new BABYLON.Scene(engine);
-                //LOADING UI---------------------------------------><------------------------------------------------
-                // animation : progress indicator
+                //loading gui
                 engine.displayLoadingUI();
                 engine.loadingUIText = "Wait...";
                 var percentage = 0
                 setInterval(function() {
                     percentage += 1;
                     engine.loadingUIText = "Loading assets..." + percentage + "%";
-                }, 1000)
-
-                //CAMERA-------------------------------------><------------------------------------------
+                }, 1000)             
+                ///////////////////////////////////////
+                scene.clearColor = new BABYLON.Color3(.5, .5, .5);
+                scene.collisionsEnabled = true
                 var camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 50, BABYLON.Vector3.Zero(), scene);
                 camera.attachControl(canvas, true);
-                camera.setPosition(new BABYLON.Vector3(0, 10 * 2, -20 * 2));
+                camera.setPosition(new BABYLON.Vector3(0, 5, -10));
                 camera.keysUp = [];
                 camera.keysDown = [];
-                camera.upperBetaLimit = 1.5
+                camera.upperBetaLimit = 2.2
                 camera.lowerBetaLimit = .5
-                /* // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-                  var light = new BABYLON.PointLight("light", new BABYLON.Vector3(3, 3, 2), scene);
-    		  light.intensity = 1.2;
-             
-	
-		    
-                  scene.registerBeforeRender(function(){
-                  light.position = camera.position
-		  light2.position = camera.position
-                  })
-		    */
-
-                // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+          
                 var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-
-                // Default intensity is 1. Let's dim the light a small amount
                 light.intensity = 0.7;
 
-                var lightmap = []
-                var light2 = new BABYLON.PointLight("light", new BABYLON.Vector3(3, 3, 2), scene);
-                light2.intensity = 1.2;
-                scene.registerBeforeRender(function() {
-                    light2.position = camera.target
-                })
-                // ILLUMINATE THE PLAYER--------------------><-------------------------------------
-                //  var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-                //  light2.intensity = 0.7;
+                var pl = new BABYLON.PointLight("pl", BABYLON.Vector3.Zero(), scene);
+                pl.diffuse = new BABYLON.Color3(1, 1, 1);
+                pl.specular = new BABYLON.Color3(1, 1, 1);
+                pl.intensity = 0.8;
+                var roof1 = new BABYLON.StandardMaterial("texture3", scene);
+                roof1.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/4ab67d7440051fc6392793a6e73d43e8--floor-texture-d-texture.jpg", scene);
+                roof1.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                roof1.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
 
-                //SKYBOX-----------><---------------------------------------------
+                var floormat = new BABYLON.StandardMaterial("texture3", scene);
+                floormat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/11733.jpg", scene);
+                floormat.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                floormat.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                //Define a material
+                var f = new BABYLON.StandardMaterial("material0", scene);
+                f.diffuseColor = new BABYLON.Color3(0.75, 0, 0);
+                // f.diffuseTexture=new BABYLON.Texture("nugget.png",scene);
+                var ba = new BABYLON.StandardMaterial("material1", scene);
+                ba.diffuseColor = new BABYLON.Color3(0, 0, 0.75);
+                var l = new BABYLON.StandardMaterial("material2", scene);
+                l.diffuseColor = new BABYLON.Color3(0, 0.75, 0.75);
+                var r = new BABYLON.StandardMaterial("material3", scene);
+                r.diffuseColor = new BABYLON.Color3(0, 0, 0.75);
+                var t = new BABYLON.StandardMaterial("material4", scene);
+                t.diffuseColor = new BABYLON.Color3(0, 0.75, 0);
+                var bo = new BABYLON.StandardMaterial("material5", scene);
+                bo.diffuseColor = new BABYLON.Color3(1, 1, 0);
+                //put into one
+                var multi = new BABYLON.MultiMaterial("nuggetman", scene);
+                multi.subMaterials.push(floormat);
+                multi.subMaterials.push(ba);
+                multi.subMaterials.push(l);
+                multi.subMaterials.push(floormat);
+                multi.subMaterials.push(t);
+                multi.subMaterials.push(roof1);
+
+                var mat = new BABYLON.StandardMaterial("mat1", scene);
+                mat.alpha = 1.0;
+                mat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 1.0);
+                var roof1 = new BABYLON.StandardMaterial("texture3", scene);
+                roof1.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/4ab67d7440051fc6392793a6e73d43e8--floor-texture-d-texture.jpg", scene);
+                roof1.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                roof1.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                var floormat = new BABYLON.StandardMaterial("texture3", scene);
+                floormat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/11733.jpg", scene);
+                floormat.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                floormat.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                var wallmat = new BABYLON.StandardMaterial("texture3", scene);
+                wallmat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/techwall.png", scene);
                 //sky
-                var skyMaterial = new BABYLON.SkyMaterial("skyMaterial", scene);
-                skyMaterial.backFaceCulling = false;
-                skyMaterial.turbidity = 1;
-                skyMaterial.luminance = 1;
-                skyMaterial.inclination = 0.42; // The solar inclination, related to the solar azimuth in interval [0, 1]
-                skyMaterial.azimuth = 0.25;
-                skyMaterial.useSunPosition = false; // Do not set sun position from azimuth and inclination
-                skyMaterial.sunPosition = new BABYLON.Vector3(200, 10, 0);
-                skyMaterial.rayleigh = 2; // Represents the sky appearance (globally)
-                skyMaterial.isPickable = false
-                // The amount of haze particles following the Mie scattering theory
-                skyMaterial.mieDirectionalG = 0.98;
-
-                skyMaterial.mieCoefficient = 0.05; // The mieCoefficient in interval [0, 0.1], affects the property skyMaterial.mieDirectionalG
-
                 var skybox = BABYLON.Mesh.CreateBox("skyBox", 5000.0, scene);
-                skybox.infiniteDistance = true;
-                skybox.material = skyMaterial;
-
-                /*var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {
-                    size: 5000.0
-                }, scene);
                 var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
                 skyboxMaterial.backFaceCulling = false;
-                skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("http://www.babylonjs-playground.com/textures/skybox", scene);
+                skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://www.babylonjs-playground.com/textures/skybox4", scene);
                 skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
                 skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
                 skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+                skyboxMaterial.disableLighting = true;
                 skybox.material = skyboxMaterial;
-                skybox.infiniteDistance = true
+                //animate skybox
                 scene.registerBeforeRender(function() {
-                    skybox.rotation.y += .001
+                    skybox.rotation.y += .003;
                 })
-*/
-                //LET'S LOAD THE PALMFRONDS-----------------------------------------------><-----------------------------------
-                var palmfrond = new createPalmfrond(scene)
-                //////////////////-----------------------------------------------------><-------------------------
-                var nitro = 1
-                //PSEUDO-IMPOSTOR--------------------------><-----------------------------
-                var sphere = BABYLON.Mesh.CreateBox("sphere1", 4, scene);
-                sphere.visibility = 0
-                //BLOCKS-------------------------------------------------------><------------------------------------
-                //BUILDING BLOCKS--------------------------------><-----------------------------------------------
-                var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-                advancedTexture.renderAtIdealSize = true;
-                var row = 5
-                var column = 5
-                var blocks = new Array()
-                var d = 9;
-                var buttons = []
-                var parts = []
-                for (var x = 0; x < row; x++) {
-                    blocks[x] = []
-                    for (var y = 0; y < column; y++) {
-                        // blocks[x][y] = 0
-                        //  var bdb = new BABYLON.Mesh.CreateBox("building blocks", 2, scene)
-                        //   bdb.position.set(x*3, 0, y*3)
-
-                        var button = BABYLON.GUI.Button.CreateImageButton("but", "Block", null);
-                        button.width = 0.1;
-                        button.height = "40px";
-                        button.color = "white";
-                        button.background = "green";
-                        button.alpha = .4
-                        button.top = (y * 104) - 200
-                        button.left = (x * 104) - 305
-                        button.xpos = x * (3 * d)
-                        button.zpos = y * (4 * d)
-                        button.rows = 0
-                        button.isVisible = false
-                        buttons.push(button)
-                        button.onPointerDownObservable.add(function() {
-
-                        })
-                        advancedTexture.addControl(button);
-
-                        parts.push(button)
-                    }
-                }
-
-                var buildButton = BABYLON.GUI.Button.CreateImageButton("but", "Build", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/copper-hi.png");
-                buildButton.width = .2;
-                buildButton.top = 300
-                buildButton.height = "40px";
-                buildButton.color = "white";
-                buildButton.background = "blue";
-                buildButton.alpha = .4
-                advancedTexture.addControl(buildButton);
-                var build = false
-                buildButton.onPointerDownObservable.add(function() {
-
-                    if (build === true) {
-                        build = false
-                    } else if (build === false) {
-                        build = true
-                    }
-                    if (build) {
-                        buttons.forEach(function(button) {
-                            button.isVisible = true
-                        })
-                    }
-                    if (!build) {
-                        buttons.forEach(function(button) {
-                            button.isVisible = false
-                        })
-                    }
-                })
-
-
-                function createBlock(xpos, zpos, ypos) {
-                    var block = new BABYLON.Mesh.CreateBox("block", 2, scene)
-                    block.scaling.y = .4
-                    block.scaling.x = 2
-                    block.scaling.z = 1.5
-                    block.position.x = xpos
-                    block.position.z = zpos
-                    block.position.y = ypos
-                    return block;
-                }
-
-                var blocks = []
-                parts.forEach(function(m) {
-                    m.onPointerDownObservable.add(function() {
-                        console.log(m.xpos)
-                        m.background = "yellow";
-                        m.rows += 4;
-                        var bl1 = new createBlock(m.xpos, m.zpos, m.rows)
-                        bl1.scaling.set(30, 10, 30);
-                        blocks.push(bl1)
-                    })
-                })
-
-                var rustyironMat = new BABYLON.StandardMaterial("texture3", scene);
-                rustyironMat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/2011-06-11-09560.jpg", scene);
-
-
-                document.addEventListener("keydown", function(ev) {
-                    if (ev.which == 66) {
-                        var blk = new BABYLON.Mesh.MergeMeshes(blocks)
-                        blk.material = rustyironMat
-                    }
-                })
-                //TERRAIN PROCEDURAL GENERATION---------------------------------------><---------------------------
-                //TERRAIN MATERIAL-------------------------------------------------------><----------------------------
-                // Create terrain material
-                var terrainMaterial = new BABYLON.TerrainMaterial("terrainMaterial", scene);
-                terrainMaterial.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-                terrainMaterial.specularPower = 64;
-                terrainMaterial.mixTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/mixMap.png", scene);
-                terrainMaterial.diffuseTexture1 = new BABYLON.Texture("https://rawcdn.githack.com/waverider404/game-assets/master/kryptonite-crystal-texture-seamless-free-thumb40.jpg", scene);
-                terrainMaterial.diffuseTexture2 = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/rock.png", scene);
-                terrainMaterial.diffuseTexture3 = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/grass.png", scene);
-
-                // Bump textures according to the previously set diffuse textures
-                terrainMaterial.bumpTexture1 = new BABYLON.Texture("https://rawcdn.githack.com/waverider404/game-assets/master/8158-normal.jpg", scene);
-                terrainMaterial.bumpTexture2 = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/rockn.png", scene);
-                terrainMaterial.bumpTexture3 = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/grassn.png", scene);
-
-                // Rescale textures according to the terrain
-                terrainMaterial.diffuseTexture1.uScale = terrainMaterial.diffuseTexture1.vScale = 10;
-                terrainMaterial.diffuseTexture2.uScale = terrainMaterial.diffuseTexture2.vScale = 10;
-                terrainMaterial.diffuseTexture3.uScale = terrainMaterial.diffuseTexture3.vScale = 10;
-
-                var grass2 = new BABYLON.StandardMaterial("grass2", scene);
-                grass2.bumpTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/terrainmaterial/sandstone_rock_001_NRM.png", scene);
-                grass2.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/terrainmaterial/sandstone_rock_001_COLOR.png", scene);
-                grass2.ambientTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/terrainmaterial/sandstone_rock_001_OCC.png", scene);
-
-                grass2.diffuseTexture.uScale = grass2.diffuseTexture.vScale = 10
-                grass2.bumpTexture.uScale = grass2.bumpTexture.vScale = 10
-                grass2.ambientTexture.uScale = grass2.ambientTexture.vScale = 10
-                //WATER MATERIAL -----------------------------------------------><--------------------------------------
-                // Water
-                var waterMesh = new BABYLON.Mesh.CreateDisc("poly", 512, 8, scene)
-                waterMesh.rotation.x = Math.PI / 2
-                var water = new BABYLON.WaterMaterial("water", scene, new BABYLON.Vector2(512, 512));
-                water.backFaceCulling = true;
-                water.bumpTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/waterbump.png", scene);
-                water.windForce = -5;
-                water.waveHeight = 0.2;
-                water.bumpHeight = 0.05;
-                water.waterColor = new BABYLON.Color3(0.047, 0.23, 0.015);
-                water.colorBlendFactor = 0.5;
-                waterMesh.position.y = 6
-                //TERRAIN--------------------------------------------------><-----------------------------------------------
-
-                var mapSubX = 1000; // point number on X axis
-                var mapSubZ = 800; // point number on Z axis
-                var seed = 0.3; // seed
-                var noiseScale = 0.03; // noise frequency
-                var elevationScale = 12.0;
-                noise.seed(seed);
-                var mapData = new Float32Array(mapSubX * mapSubZ * 3); // 3 float values per point : x, y and z
-
-                //var paths = [];                             // array for the ribbon model
-                for (var l = 0; l < mapSubZ; l++) {
-                    //var path = [];                          // only for the ribbon
-                    for (var w = 0; w < mapSubX; w++) {
-                        var x = ((w - mapSubX * 0.5) * 2.0);
-                        var z = ((l - mapSubZ * 0.5) * 2.0);
-                        var y = noise.simplex2(x * noiseScale, z * noiseScale);
-                        y *= (8.5 + y) * y * elevationScale; // let's increase a bit the noise computed altitude
-
-                        mapData[3 * (l * mapSubX + w)] = x * 15;
-                        mapData[3 * (l * mapSubX + w) + 1] = y;
-                        mapData[3 * (l * mapSubX + w) + 2] = z * 15;
-
-                        //path.push(new BABYLON.Vector3(x, y, z));
-                    }
-                    //paths.push(path);
-                }
-                var terrainCreated = false;
-                var terrain;
-
                 s.onload = function() {
-                    // Dynamic Terrain
-                    // ===============
-                    var terrainSub = 100; // 20 terrain subdivisions
-                    var params = {
-                        mapData: mapData, // data map declaration : what data to use ?
-                        mapSubX: mapSubX, // how are these data stored by rows and columns
-                        mapSubZ: mapSubZ,
-                        terrainSub: terrainSub // how many terrain subdivisions wanted
-                    }
-                    terrain = new BABYLON.DynamicTerrain("t", params, scene);
-                    terrain.mesh.material = grass2;
-                    lightmap.push(terrain.mesh)
-
-                    terrain.subToleranceX = 10;
-                    terrain.subToleranceZ = 5;
-                    terrainCreated = true;
-                    terrain.update(true);
-                    water.addToRenderList(skybox);
-                    water.addToRenderList(terrain.mesh);
-                    waterMesh.material = water;
-
-                }
-
-                //PROCEDURAL LOD GROUND------------------------------><---------------------------------------
-
-                s3.onload = function() {
-                    var mapSubX = 36;
-                    var mapSubZ = 36;
-                    var terrainSub = 150;
-
-                    var mapData = new Float32Array(mapSubX * mapSubZ * 3);
-                    for (var l = 0; l < mapSubZ; l++) {
-                        for (var w = 0; w < mapSubX; w++) {
-                            mapData[3 * (l * mapSubX + w)] = (w - mapSubX * 0.5) * 42.0;
-                            mapData[3 * (l * mapSubX + w) + 1] = 0;
-                            mapData[3 * (l * mapSubX + w) + 2] = (l - mapSubZ * 0.5) * 42.0;
-                        }
-                    }
-                    var params = {
-                        mapData: mapData,
-                        mapSubX: mapSubX,
-                        mapSubZ: mapSubZ,
-                        terrainSub: terrainSub
-                    };
-                    var terrain = new BABYLON.DynamicTerrain("terrain", params, scene);
-                    terrain.mesh.position.y = 5;
-                    lightmap.push(terrain.mesh)
-                    var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-                    groundMaterial.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/ert/master/assets/textures/terrainmaterial/DeadGrass_512.png", scene);
-                    groundMaterial.diffuseTexture.uScale = 36;
-                    groundMaterial.diffuseTexture.vScale = 36;
-
-                    terrain.mesh.material = groundMaterial
-
-                };
-                //GRASS PROCEDURAL GENERATION--------------------------------><----------------------------------------------
-                //GRASS------------><--------------------------
-                BABYLON.Effect.ShadersStore["customVertexShader"] =
-                    ` 
-precision highp float;
-
-// Attributes
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec2 uv;
-
-//uniform
-uniform float time;
-uniform sampler2D heightMap;
-uniform mat4 world;
-uniform mat4 worldViewProjection;
-
-// Examples of variables passed from vertex to fragment shader
-varying vec3 vPosition;
-varying vec3 vNormal;
-varying vec2 vUv;
 
 
-float height(vec2 uv)
-{
-     vec4 bumpData = texture2D( heightMap, uv );
-    
-    float vAmount = (bumpData.r * 256.0 + bumpData.g + bumpData.b / 256.0) ;
-    return vAmount;
-}
+                    var polygons = [];
+                    var rotations = [];
 
-void main() {
+                    for (var p in POLYHEDRA) {
 
-    vNormal = normal;
-    vUv = uv;
-    
-   
-    float speed = 1.4;
-    float waveWidth = 3.;
-    float waveHeight = .08;
-    float t = time * speed*8.;
+                        var polyhedron = POLYHEDRA[p];
+                        polygons.push(polyhedron)
+                        console.log(polygons[2])
 
-    float vAmount = height(uv);
-
-  
-
-    vec3 newPosition = position + normal*vec3(vAmount/4.0);
-
-    newPosition.x += (
-	    // Add some offset to the waves to make it slightly less regular
-	    sin(waveWidth * position.x + t * 1.3) *
-	    cos(waveWidth * position.y + t * 0.9) * waveHeight
-    ) + (
-        // Extra waves to add interest
-	    cos(waveWidth * 2.0 * position.x + t * -.3) *
-	    sin(waveWidth * 4.0 * position.y + t * 3.9) * ( waveHeight / 2.0 )
-    );
-
-vPosition = newPosition;
-
-    gl_Position = worldViewProjection * vec4(newPosition, 1.0);
-
-}
-  	 `;
-
-                BABYLON.Effect.ShadersStore["customFragmentShader"] =
-                    `
-        precision highp float;
-
-uniform sampler2D heightMap;
-uniform sampler2D basetexture;
-
-
-uniform float time;
-uniform vec3 color;
-
-// Example varyings passed from the vertex shader
-varying vec3 vPosition;
-varying vec3 vNormal;
-varying vec2 vUv;
- 
-float height(vec2 uv)
-{
-     vec4 bumpData = texture2D( heightMap, uv );
-    
-    float vAmount = (bumpData.r * 256.0 + bumpData.g + bumpData.b / 256.0) ;
-    return vAmount;
-}
-
-
-void main() {
-   
-   
-    vec3 v = vPosition;
-     vec4 basecolor = texture2D( basetexture, vUv );
-     float noise = height(vUv);
-     
-if(basecolor.g < .3){
-    discard;
-}
-     if(v.y < 5.){
-discard;
-    }
-
-       if(v.y < noise*.19){
-        basecolor.g = .6*noise;
-    }
-    if(v.y < noise*5.3){
-        basecolor.r = .3;
-    }
-    gl_FragColor = vec4( basecolor.rgb*.5, 1. );
-
-}
-        `;
-
-                var mat = new BABYLON.ShaderMaterial("ball_shader", scene,
-                    "custom", {
-                        attributes: ["position", "normal", "uv"],
-                        uniforms: ["worldViewProjection", "world", "vPositionW", "vNormalW", "time"]
-                    });
-
-                var texture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/thumb_Bowling_grass_pxr128.jpg", scene);
-                var normal = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/thumb_Bowling_grass_pxr128.jpg", scene);
-
-                mat.setTexture("basetexture", texture)
-                mat.setTexture("heightMap", normal)
-
-                s2.onload = function() {
-                    var mapSubX = 36;
-                    var mapSubZ = 36;
-                    var terrainSub = 150;
-
-                    var mapData = new Float32Array(mapSubX * mapSubZ * 3);
-                    for (var l = 0; l < mapSubZ; l++) {
-                        for (var w = 0; w < mapSubX; w++) {
-                            mapData[3 * (l * mapSubX + w)] = (w - mapSubX * 0.5) * 2.0;
-                            mapData[3 * (l * mapSubX + w) + 1] = 0;
-                            mapData[3 * (l * mapSubX + w) + 2] = (l - mapSubZ * 0.5) * 2.0;
-                        }
-                    }
-                    var params = {
-                        mapData: mapData,
-                        mapSubX: mapSubX,
-                        mapSubZ: mapSubZ,
-                        terrainSub: terrainSub
-                    };
-                    var GRASSLAND = new BABYLON.DynamicTerrain("terraingrass", params, scene);
-                    GRASSLAND.mesh.position.y = -40.0;
-                    GRASSLAND.mesh.scaling.y = 5
-                    GRASSLAND.mesh.alwaysSelectAsActiveMesh = true
-                    GRASSLAND.mesh.material = mat;
-                    lightmap.push(GRASSLAND.mesh);
-                    light2.includedOnlyMeshes = lightmap
-                    light.excludedMeshes = lightmap
-                    var threshold = 0
-                    scene.onAfterCameraRenderObservable.add(function() {
-                        threshold += .02
-                        mat.setFloat("time", Math.sin(threshold) + 10)
-
-                    })
-                };
-
-                //socket.io events---------------------------------------><--------------------------------------
-                socket.emit('new player');
-                setInterval(function() {
-                    socket.emit('movement', movement);
-                }, 1000 / 60);
-
-
-                socket.on('online', function(data) {
-                    console.log(data);
-                });
-
-                var shft = new BABYLON.Vector3.Zero();
-                //pointer event
-
-                scene.onPointerDown = function(ev, poke) {
-
-                    if (poke.hit) {
-                        shft.copyFrom(poke.pickedPoint)
-                    }
-
-                }
-
-                //LOCOMOTION------------------------><-----------------------------------------------------------
-                var speed = 0
-                var rotY = 0
-                document.addEventListener("keydown", function(ev) {
-                    if (ev.which == 32) { // En avant		
-                        speed = -2.5 * nitro;
-                    }
-                })
-
-                document.addEventListener("keyup", function(ev) {
-                    if (ev.which == 32) { // En avant		
-                        speed = 0
-                    }
-                })
-                setInterval(function() {
-                    rotY = -4.69 - camera.alpha;
-                    socket.emit("locomotive", {
-                        velocity: speed,
-                        rotAxis: rotY
-                    })
-                }, 1000 / 60)
-                //Array of limited players----------------><-------------------------------------------------------------------
-                setInterval(function() {
-                    socket.emit("camera-follow", shft);
-                    socket.emit('shift', shft);
-                }, 1000 / 60);
-
-
-
-                //CREATE MULTIPLE CAMERAS FOR PLAYERS-------------------><--------------------------
-                var cameras = []
-                for (var i = 0; i < 20; i++) {
-                    var cam = new BABYLON.ArcRotateCamera("newCamera", 3 * Math.PI / 2, Math.PI / 8, 50, BABYLON.Vector3.Zero(), scene);
-                    cam.attachControl(canvas, true);
-                    cam.setPosition(new BABYLON.Vector3(0, 10, -20));
-                    cam.setEnabled(false)
-                    cameras.push(cam)
-                }
-
-                // scene.debugLayer.show();
-                var labels = []
-                //GUI-INTERFACE-----------------------------------------><-------------------------------------------
-                gui.onload = function() {
-
-                    var change = true
-                    var indicate = true
-
-                    function indicator() {
-                        if (indicate) {
-                            indicate = false
-                            for (var i = 0; i < labels.length; i++) {
-                                labels[i].isVisible = false
-                                labels[i].alpha = 0
-                            }
-                        } else if (!indicate) {
-                            indicate = true
-                            for (var i = 0; i < labels.length; i++) {
-                                labels[i].isVisible = true
-                                labels[i].alpha = 1
-                            }
-                        }
-                    }
-
-
-                    function charge() {
-
-                        if (change) {
-                            change = false
-                            nitro = 3.;
-                        } else if (!change) {
-                            change = true
-                            nitro = 1.;
-                        }
 
                     }
+                    var box = new BABYLON.Mesh.CreateBox("b", 48, scene)
+                    var polygon = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
+                        custom: polygons[22],
+                        size: 20
+                    }, scene);
+                    polygon.convertToFlatShadedMesh();
+                    polygon.material = mat;
+                    box.visibility = .5
+                    polygon.position.y = 17
 
-                    var button = new GUInterface(8, false, 0.8)
-                    button.interact()
-                    button.switch()
-                    button.clear()
+                    scene.onPointerDown = function(ev, pik) {
+                        if (pik.hit) console.log(pik.pickedPoint)
+                    }
+                    //{x: -13.527756941799105, y: 33.13796921583514, z: 9.047783788844669}
+                    camera.target.copyFrom(new BABYLON.Vector3(13.527756941799105, 42.13796921583514, 9.047783788844669))
+                    var box2 = new BABYLON.Mesh.CreateBox("b", 48, scene)
+                    //box2.scaling.set(3.5, .02, 3.5);
+                    box2.scaling.y = .02
+                    box2.position.y = 70
 
+                    var floor = new BABYLON.Mesh.CreateGround("floor", 6, 6, 2, scene)
+                    floor.position.y = 34
+                    floor.scaling.set(37, 4, 37)
+                    floor.checkCollisions = true;
+                    floor.material = floormat
 
-                    function update() {
-                        var option1 = button.select(5, "charge", charge)
-                        var option2 = button.select(6, "indicator", indicator)
+                    var polygon2 = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
+                        custom: polygons[22],
+                        size: 11
+                    }, scene);
+                    polygon2.convertToFlatShadedMesh();
+                    polygon2.material = mat;
+                    polygon2.rotation.x = 6.699999999999984
+                    polygon2.rotation.z = 24.95000000000022
+                    polygon2.position.y = 70
+                    polygon.rotation.x = 6.699999999999984
+                    polygon.rotation.z = 24.95000000000022
+
+                    var bCSG2 = BABYLON.CSG.FromMesh(box2);
+                    var aCSG2 = BABYLON.CSG.FromMesh(polygon2);
+
+                    var subCSG2 = bCSG2.subtract(aCSG2);
+                    var base2 = subCSG2.toMesh("csg2", mat, scene);
+                    base2.scaling.set(4, .2, 4);
+                    base2.material = roof1
+                    scene.removeMesh(box2);
+                    scene.removeMesh(polygon2);
+                    var bCSG = BABYLON.CSG.FromMesh(box);
+                    var aCSG = BABYLON.CSG.FromMesh(polygon);
+
+                    var subCSG = bCSG.subtract(aCSG);
+                    var base3 = subCSG.toMesh("csg2", mat, scene);
+                    base3.checkCollisions = true
+                    base3.scaling.set(4, 4, 4);
+                    base3.material = wallmat
+                    scene.removeMesh(box);
+                    scene.removeMesh(polygon);
+                    base2.checkCollisions = true
+                    var createSpawnPoint = function() {
+                        var box = new BABYLON.Mesh.CreateBox("b", 1.3, scene)
+                        box.position.z = -.5
+                        var polygon = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
+                            custom: polygons[16],
+                            size: 1
+                        }, scene);
+                        polygon.convertToFlatShadedMesh();
+
+                        var aCSG = BABYLON.CSG.FromMesh(box);
+                        var bCSG = BABYLON.CSG.FromMesh(polygon);
+
+                        var subCSG = bCSG.subtract(aCSG);
+                        var base = subCSG.toMesh("csg2", mat, scene);
+                        scene.removeMesh(box)
+                        polygon.scaling.set(.87, .87, .87)
+                        polygon.visibility = .5
+                        polygon.parent = base
+                        return base
                     }
 
-                    scene.registerBeforeRender(update())
+                    var spawnpoint = new createSpawnPoint()
+                    spawnpoint.scaling.set(20, 20, 20)
+                    spawnpoint.position.set(1.3491115696702272, 44, 64.65881072193218)
 
-                }
+                    var spawnpoint2 = new createSpawnPoint()
+                    spawnpoint2.scaling.set(20, 20, 20)
+                    spawnpoint2.position.set(1.3491115696702272, 44, -64.65881072193218)
+                    spawnpoint2.rotation.y = Math.PI
+                    //sphere instance to ease camera tracking
+                    var sphere = new BABYLON.Mesh.CreateSphere("sp", 10, 1, scene);
+                    sphere.visibility = 0;
+                    //spawn the players
+                    //spawn the players
+                    var createCyberMetro = function(id) {
+                        var box = BABYLON.Mesh.CreateBox("player" + id, 2, scene);
 
-                //GUI-----------------------------------------------><------------------------------------------------------
-                var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-                advancedTexture.renderAtIdealSize = true;
-                //CREATE PLAYER LABEL/INDICATOR------------------------------><--------------------------------------------------
 
-                //CREATE MECHS HOORAY!!-------------------------------------------><----------------------------
+                        var sphere2 = BABYLON.Mesh.CreateBox("hand1", .5, scene);
 
-                var skeleton;
-                var loaded = false
-                var loader = BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/", "mechy.glb", scene, function(newMeshes, particleSystems, skeletons) {
-                    loaded = true
+                        var sphere3 = BABYLON.Mesh.CreateBox("hand2", .5, scene);
 
-                    newMeshes[0].scaling.set(5, 5, 5);
-                    engine.hideLoadingUI();
+                        var sphere4 = BABYLON.Mesh.CreateSphere("head", 10, 1, scene);
 
-                    light.excludedMeshes = [newMeshes[0]]
-                    for (var i = 0; i < 20; i++) {
-                        for (var k = 0; k < newMeshes.length; k++) {
-                            var m = newMeshes[k].createInstance("name" + i)
-                            m.scaling.set(1.1, 1.1, 1.1);
-                            m.rotation.y = Math.PI;
-                            m.position.z = 15 * (i / 4);
-                            light.excludedMeshes = [m]
-                            m.setEnabled(false);
-                        }
+
+                        sphere2.scaling.y = 3.5
+                        sphere3.scaling.y = 3.5
+                        var direction = BABYLON.Vector3.Zero();
+
+                        var node = box;
+
+
+                        node.getDirectionToRef(BABYLON.Vector3.Left(), direction);
+
+                        sphere2.position.x = node.position.x + direction.x;
+                        sphere2.position.y = node.position.y + direction.y;
+                        sphere2.position.z = node.position.z + direction.z;
+
+                        node.getDirectionToRef(BABYLON.Vector3.Right(), direction);
+
+                        sphere3.position.x = node.position.x + direction.x;
+                        sphere3.position.y = node.position.y + direction.y;
+                        sphere3.position.z = node.position.z + direction.z;
+
+                        node.getDirectionToRef(BABYLON.Vector3.Up(), direction);
+
+                        sphere4.position.x = node.position.x + direction.x;
+                        sphere4.position.y = node.position.y + direction.y;
+                        sphere4.position.z = node.position.z + direction.z;
+                        this.hand1 = sphere2
+                        this.hand2 = sphere3
+                        this.head = sphere4
+                        this.body = box
+                        this.hand1.setParent(this.body)
+                        this.hand2.setParent(this.body)
+                        this.head.setParent(this.body)
+                        this.body.position.y = 40
+                        this.body.position.x = this.body.position.z = Math.random() * 5
+                        this.thruster = BABYLON.Mesh.CreateBox("box", 2, scene);
+                        this.thruster.scaling.y = .08
+                        this.thruster.position.y = 38.5
+                        this.thruster.setParent(this.body)
+                        return this.body
                     }
 
-                    newMeshes[0].setEnabled(false);
-                    var action1 = false
-                    document.addEventListener("keydown", function(ev) {
-                        if (ev.which == 16) {
-                            action1 = true
-                            socket.emit("changeActions", action1);
-                        }
-                    })
+                    function createLoot() {
+                        var loot = BABYLON.Mesh.CreateBox("loots", 4, scene);
+                        loot.position.y = 34
+                        loot.material = wallmat
+                        return loot;
+                    }
 
-                    socket.on('playAnimations', function(actions) {
-                        for (var id in actions) {
-                            var action = actions[id];
-                            if (action.play) {
+                    for (var k = 0; k < 5; k++) {
+                        var loots = new createLoot()
+                        loots.position.x = Math.random() * 37 * (k / 4)
+                        loots.position.z = Math.random() * 37 * (k / 4)
+                    }
 
-                                for (var i = 0; i < skeletons.length; i++) {
-                                    scene.beginAnimation(skeletons[i], 0, 100, true, 6.0);
+                    var robots = []
+                    var loaded = false
+                    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/eddicke/chat-example/master/assets/models/", "medallionFighter.babylon", scene, function(newMeshes, particleSystems, skeletons) {
+
+                        var medallion;
+                        loaded = true;
+                        engine.hideLoadingUI();
+                        for (var index = 0; index < newMeshes.length; index++) {
+                            if (newMeshes[index].skeleton) {
+                                medallion = newMeshes[index];
+                                for (var i = 0; i < 5; i++) {
+                                    var medallion2 = medallion.clone("medallion2");
+                                    medallion2.scaling.set(.06, .06, .06);
+                                    medallion2.rotation.y = Math.PI
+                                    medallion2.position.y = 36
+                                    medallion2.skeleton = medallion.skeleton.clone("clonedSkeleton");
+                                    //var walk = scene.beginAnimation(medallion2.skeleton, 312, 332, true, 1);
+                                    medallion2.setEnabled(false)
+                                    robots.push(medallion2)
                                 }
+                                medallion.dispose()
                             }
                         }
 
-                    })
-                });
-                loader.onMaterialLoaded = function(material) {
-                    material.sideOrientation = 1;
-                };
 
-                //REFERENCE PLAYER---------------------------------------><-------------------------------------
-                var newplayers = []
-                for (var i = 0; i < 20; i++) {
-                    var player = new BABYLON.Mesh.CreateBox("sphere1", 4, scene);
-                    player.setEnabled(false)
-                    player.rotation.y = Math.PI;
-                    player.visibility = 0
-                    light.excludedMeshes = [player]
-                    newplayers.push(player)
-                    var rect1 = new BABYLON.GUI.Rectangle();
-                    rect1.width = 0.2;
-                    rect1.height = "40px";
-                    rect1.cornerRadius = 20;
-                    rect1.color = "Orange";
-                    rect1.thickness = 1;
-                    rect1.alpha = .7
-                    rect1.background = "green";
-                    advancedTexture.addControl(rect1);
+                    });
+                    //Let's create some fighting platforms...hurray!!!
+                    var Platform = function(posx, posz) {
+                        BABYLON.SceneLoader.ImportMesh("", "https://cdn.rawgit.com/waverider404/game-assets/master/environ/", "scene.glb", scene, function(newMeshes) {
+                            newMeshes[1].scaling.set(3, 3, 3)
+                            newMeshes[1].checkCollisions = true
+                            newMeshes[0].position.z = posz
+                            newMeshes[0].position.x = posx
+                            newMeshes[0].position.y = 100
+                        });
+                    }
+                    var platform = new Platform(1, 1)
+                    /*for(var i = 0; i<5; i++){
+                    var plat = new Platform(Math.random()*900*(i/4), Math.random()*900*(i/4))
+                    }*/
+                    //send the orientation of the player to other clients
+                    var rotY = 0
+                    setInterval(function() {
+                        rotY = -4.69 - camera.alpha;
+                        socket.emit("locomotive", {
+                            rotAxis: rotY
+                        })
+                    }, 1000 / 60);
+                    //Lets animate the characters with various input
+                  var speedzone = false
+                  document.addEventListener("keydown", function(ev){
+                    if(ev.which == 16){
+                      speedzone = true
+                    }
+                  })
+                  
+                  setInterval(function(){
+                    socket.emit("animations", {run: speedzone})
+                  },1000/60)
+                    //initialize the new player and send data to other clients]
+                    var available = []
+                    socket.on('directions', function(dirs) {
+                        for (var id in dirs) {
+                            var dir = dirs[id];
 
-                    var label = new BABYLON.GUI.TextBlock();
-                    rect1.addControl(label);
-
-                    rect1.linkWithMesh(player);
-                    rect1.linkOffsetY = -300;
-                    rect1.isVisible = false;
-                    labels.push(rect1)
-                }
-                //--------------------------------------><------------------------------------------------------------//
-                var cnt = 0
-                var pl = []
-                var original = []
-                var select = 0
-                var playerElevation = 3.5;
-                var playerAltitude = 0.0;
-                var camElevation = 28.0;
-                var camAltitude = 0.0;
-                var nerd = []
-                //direction
-                var rotr = 0
-                socket.on('directions', function(dirs) {
-                    rotr += .05
-                    cnt += 1
-                    for (var id in dirs) {
-                        var dir = dirs[id];
-				if(dir.destroy){
-				alert("player"+dir.rnd+" just left")	
-				}
-                        if (dir.spawn) {
-
-                            original.push(dir.rnd)
-                            //alert("this is random" + dir.rnd);
-                            newplayers[dir.rnd].setEnabled(true);
-                            light.excludedMeshes = [newplayers[dir.rnd]]
-                            //CALL THE MECH TO THE SCENE-------------------><--------------------------------------
-                            if (loaded) {
-                                labels[dir.rnd].isVisible = true
-                                labels[dir.rnd].children[0].text = "G-XXX-" + dir.rnd;
+                            if (dir.spawn && loaded) {
+                                robots[dir.rnd].name = dir.rnd + ""
+                                robots[dir.rnd].setEnabled(true);
+                              setInterval(function(){
+                                scene.beginAnimation(robots[dir.rnd].skeleton, 0, 200, true,  dir.threshold);
+                              }, 9000)
+                                robots[dir.rnd].rotation.y = dir.rotY
                                 scene.meshes.forEach(function(m) {
-                                    if (m.name === "name" + dir.rnd) {
-                                        m.setEnabled(true)
-                                        light.excludedMeshes = [m]
-                                        m.parent = newplayers[dir.rnd]
+                                    if (m.name === dir.rnd) {
+                                        m.parent = sphere
                                     }
                                 })
-                            }
-                            //MECHIIII-------------------------------------><--------------------------------------
-                            var mat = new BABYLON.StandardMaterial("texture2", scene);
-                            mat.diffuseColor = new BABYLON.Color3(dir.color.r, dir.color.b, dir.color.g);
-                            newplayers[dir.rnd].material = mat;
-                            newplayers[dir.rnd].rotation.y = dir.rotY
-                            newplayers[dir.rnd].position.copyFrom(dir.lastpos)
-                            //CREATE A NICE SMOOTH FOLLOW CAMERA-----------------><----------------------------------------
-                            //MAKE THE PLAYER LERP----------------------------------------><-------------------------------------------------
 
-                            //TERRAIN HEIGHTMAP-------------------------><---------------------------------------------------------
-                            scene.registerBeforeRender(function() {
-                                if (terrainCreated) {
-                                    playerAltitude = terrain.getHeightFromMap(newplayers[dir.rnd].position.x, newplayers[dir.rnd].position.z) + playerElevation;
-                                    newplayers[dir.rnd].position.y = playerAltitude;
-                                    sphere.position.y = playerAltitude;
-                                    camAltitude = terrain.getHeightFromMap(camera.target.x, camera.target.z) + camElevation;
-                                    camera.target.y = camAltitude;
-
+                                //remove players that are offline or defeated
+                                if (dir.destroy) {
+                                    robots[dir.rnd].setEnabled(false);
+                                    available.push(robots[dir.rnd])
                                 }
-                            });
-
-                        } else {
-                            console.log("Max. player reached, join another room!!");
+                                if (available.length <= 1) {
+                                    robots[dir.rnd].setEnabled(true);
+                                }
+                                robots[dir.rnd].position.x = dir.lastpos.x
+                                robots[dir.rnd].position.z = dir.lastpos.z
+                            }
                         }
-                    }
-                });
-                //SMOOTH CAMERA FOLLOW--------><-----------------------------------
-                scene.registerBeforeRender(function() {
-                    sphere.rotation.y = rotY
-                    sphere.locallyTranslate(new BABYLON.Vector3(0, 0, speed))
-                    camera.target.x = sphere.position.x
-                    camera.target.z = sphere.position.z
-                })
-                setInterval(function() {
-                    socket.emit("getPosition", sphere.getAbsolutePosition())
-                }, 1000 / 60);
+                    })
 
-                // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-                var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+                    var velocity = 0
+                    document.addEventListener("keydown", function(ev) {
+                        if (ev.which == 32) {
+                            velocity = -.5
 
+                        }
+                    })
+                    document.addEventListener("keyup", function(ev) {
+                        if (ev.which == 32) {
+                            velocity = 0
+                        }
+                    })
+
+                    scene.registerBeforeRender(function() {
+                        sphere.rotation.y = rotY;
+                        sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
+                        camera.target.x = sphere.position.x
+                        camera.target.z = sphere.position.z
+                    })
+                    //send the sphere position to other clients
+                    setInterval(function() {
+                        socket.emit("getPosition", sphere.getAbsolutePosition())
+                    }, 1000 / 60);
+                }
                 return scene;
-
             };
-
-            // ******************
-            // Noise Library : https://github.com/josephg/noisejs/blob/master/perlin.js
-            var noise;
-            (function(global) {
-                var module = noise = {};
-
-                function Grad(x, y, z) {
-                    this.x = x;
-                    this.y = y;
-                    this.z = z;
-                }
-
-                Grad.prototype.dot2 = function(x, y) {
-                    return this.x * x + this.y * y;
-                };
-
-                Grad.prototype.dot3 = function(x, y, z) {
-                    return this.x * x + this.y * y + this.z * z;
-                };
-
-                var grad3 = [new Grad(1, 1, 0), new Grad(-1, 1, 0), new Grad(1, -1, 0), new Grad(-1, -1, 0),
-                    new Grad(1, 0, 1), new Grad(-1, 0, 1), new Grad(1, 0, -1), new Grad(-1, 0, -1),
-                    new Grad(0, 1, 1), new Grad(0, -1, 1), new Grad(0, 1, -1), new Grad(0, -1, -1)
-                ];
-
-                var p = [151, 160, 137, 91, 90, 15,
-                    131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23,
-                    190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33,
-                    88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166,
-                    77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244,
-                    102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196,
-                    135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123,
-                    5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42,
-                    223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9,
-                    129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228,
-                    251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107,
-                    49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254,
-                    138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180
-                ];
-                // To remove the need for index wrapping, double the permutation table length
-                var perm = new Array(512);
-                var gradP = new Array(512);
-
-                // This isn't a very good seeding function, but it works ok. It supports 2^16
-                // different seed values. Write something better if you need more seeds.
-                module.seed = function(seed) {
-                    if (seed > 0 && seed < 1) {
-                        // Scale the seed out
-                        seed *= 65536;
-                    }
-
-                    seed = Math.floor(seed);
-                    if (seed < 256) {
-                        seed |= seed << 8;
-                    }
-
-                    for (var i = 0; i < 256; i++) {
-                        var v;
-                        if (i & 1) {
-                            v = p[i] ^ (seed & 255);
-                        } else {
-                            v = p[i] ^ ((seed >> 8) & 255);
-                        }
-
-                        perm[i] = perm[i + 256] = v;
-                        gradP[i] = gradP[i + 256] = grad3[v % 12];
-                    }
-                };
-
-                module.seed(0);
-
-                /*
-                for(var i=0; i<256; i++) {
-                  perm[i] = perm[i + 256] = p[i];
-                  gradP[i] = gradP[i + 256] = grad3[perm[i] % 12];
-                }*/
-
-                // Skewing and unskewing factors for 2, 3, and 4 dimensions
-                var F2 = 0.5 * (Math.sqrt(3) - 1);
-                var G2 = (3 - Math.sqrt(3)) / 6;
-
-                var F3 = 1 / 3;
-                var G3 = 1 / 6;
-
-                // 2D simplex noise
-                module.simplex2 = function(xin, yin) {
-                    var n0, n1, n2; // Noise contributions from the three corners
-                    // Skew the input space to determine which simplex cell we're in
-                    var s = (xin + yin) * F2; // Hairy factor for 2D
-                    var i = Math.floor(xin + s);
-                    var j = Math.floor(yin + s);
-                    var t = (i + j) * G2;
-                    var x0 = xin - i + t; // The x,y distances from the cell origin, unskewed.
-                    var y0 = yin - j + t;
-                    // For the 2D case, the simplex shape is an equilateral triangle.
-                    // Determine which simplex we are in.
-                    var i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
-                    if (x0 > y0) { // lower triangle, XY order: (0,0)->(1,0)->(1,1)
-                        i1 = 1;
-                        j1 = 0;
-                    } else { // upper triangle, YX order: (0,0)->(0,1)->(1,1)
-                        i1 = 0;
-                        j1 = 1;
-                    }
-                    // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
-                    // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
-                    // c = (3-sqrt(3))/6
-                    var x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
-                    var y1 = y0 - j1 + G2;
-                    var x2 = x0 - 1 + 2 * G2; // Offsets for last corner in (x,y) unskewed coords
-                    var y2 = y0 - 1 + 2 * G2;
-                    // Work out the hashed gradient indices of the three simplex corners
-                    i &= 255;
-                    j &= 255;
-                    var gi0 = gradP[i + perm[j]];
-                    var gi1 = gradP[i + i1 + perm[j + j1]];
-                    var gi2 = gradP[i + 1 + perm[j + 1]];
-                    // Calculate the contribution from the three corners
-                    var t0 = 0.5 - x0 * x0 - y0 * y0;
-                    if (t0 < 0) {
-                        n0 = 0;
-                    } else {
-                        t0 *= t0;
-                        n0 = t0 * t0 * gi0.dot2(x0, y0); // (x,y) of grad3 used for 2D gradient
-                    }
-                    var t1 = 0.5 - x1 * x1 - y1 * y1;
-                    if (t1 < 0) {
-                        n1 = 0;
-                    } else {
-                        t1 *= t1;
-                        n1 = t1 * t1 * gi1.dot2(x1, y1);
-                    }
-                    var t2 = 0.5 - x2 * x2 - y2 * y2;
-                    if (t2 < 0) {
-                        n2 = 0;
-                    } else {
-                        t2 *= t2;
-                        n2 = t2 * t2 * gi2.dot2(x2, y2);
-                    }
-                    // Add contributions from each corner to get the final noise value.
-                    // The result is scaled to return values in the interval [-1,1].
-                    return 70 * (n0 + n1 + n2);
-                };
-
-                // 3D simplex noise
-                module.simplex3 = function(xin, yin, zin) {
-                    var n0, n1, n2, n3; // Noise contributions from the four corners
-
-                    // Skew the input space to determine which simplex cell we're in
-                    var s = (xin + yin + zin) * F3; // Hairy factor for 2D
-                    var i = Math.floor(xin + s);
-                    var j = Math.floor(yin + s);
-                    var k = Math.floor(zin + s);
-
-                    var t = (i + j + k) * G3;
-                    var x0 = xin - i + t; // The x,y distances from the cell origin, unskewed.
-                    var y0 = yin - j + t;
-                    var z0 = zin - k + t;
-
-                    // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
-                    // Determine which simplex we are in.
-                    var i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
-                    var i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
-                    if (x0 >= y0) {
-                        if (y0 >= z0) {
-                            i1 = 1;
-                            j1 = 0;
-                            k1 = 0;
-                            i2 = 1;
-                            j2 = 1;
-                            k2 = 0;
-                        } else if (x0 >= z0) {
-                            i1 = 1;
-                            j1 = 0;
-                            k1 = 0;
-                            i2 = 1;
-                            j2 = 0;
-                            k2 = 1;
-                        } else {
-                            i1 = 0;
-                            j1 = 0;
-                            k1 = 1;
-                            i2 = 1;
-                            j2 = 0;
-                            k2 = 1;
-                        }
-                    } else {
-                        if (y0 < z0) {
-                            i1 = 0;
-                            j1 = 0;
-                            k1 = 1;
-                            i2 = 0;
-                            j2 = 1;
-                            k2 = 1;
-                        } else if (x0 < z0) {
-                            i1 = 0;
-                            j1 = 1;
-                            k1 = 0;
-                            i2 = 0;
-                            j2 = 1;
-                            k2 = 1;
-                        } else {
-                            i1 = 0;
-                            j1 = 1;
-                            k1 = 0;
-                            i2 = 1;
-                            j2 = 1;
-                            k2 = 0;
-                        }
-                    }
-                    // A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
-                    // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
-                    // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
-                    // c = 1/6.
-                    var x1 = x0 - i1 + G3; // Offsets for second corner
-                    var y1 = y0 - j1 + G3;
-                    var z1 = z0 - k1 + G3;
-
-                    var x2 = x0 - i2 + 2 * G3; // Offsets for third corner
-                    var y2 = y0 - j2 + 2 * G3;
-                    var z2 = z0 - k2 + 2 * G3;
-
-                    var x3 = x0 - 1 + 3 * G3; // Offsets for fourth corner
-                    var y3 = y0 - 1 + 3 * G3;
-                    var z3 = z0 - 1 + 3 * G3;
-
-                    // Work out the hashed gradient indices of the four simplex corners
-                    i &= 255;
-                    j &= 255;
-                    k &= 255;
-                    var gi0 = gradP[i + perm[j + perm[k]]];
-                    var gi1 = gradP[i + i1 + perm[j + j1 + perm[k + k1]]];
-                    var gi2 = gradP[i + i2 + perm[j + j2 + perm[k + k2]]];
-                    var gi3 = gradP[i + 1 + perm[j + 1 + perm[k + 1]]];
-
-                    // Calculate the contribution from the four corners
-                    var t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
-                    if (t0 < 0) {
-                        n0 = 0;
-                    } else {
-                        t0 *= t0;
-                        n0 = t0 * t0 * gi0.dot3(x0, y0, z0); // (x,y) of grad3 used for 2D gradient
-                    }
-                    var t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
-                    if (t1 < 0) {
-                        n1 = 0;
-                    } else {
-                        t1 *= t1;
-                        n1 = t1 * t1 * gi1.dot3(x1, y1, z1);
-                    }
-                    var t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
-                    if (t2 < 0) {
-                        n2 = 0;
-                    } else {
-                        t2 *= t2;
-                        n2 = t2 * t2 * gi2.dot3(x2, y2, z2);
-                    }
-                    var t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
-                    if (t3 < 0) {
-                        n3 = 0;
-                    } else {
-                        t3 *= t3;
-                        n3 = t3 * t3 * gi3.dot3(x3, y3, z3);
-                    }
-                    // Add contributions from each corner to get the final noise value.
-                    // The result is scaled to return values in the interval [-1,1].
-                    return 32 * (n0 + n1 + n2 + n3);
-
-                };
-
-                // ##### Perlin noise stuff
-
-                function fade(t) {
-                    return t * t * t * (t * (t * 6 - 15) + 10);
-                }
-
-                function lerp(a, b, t) {
-                    return (1 - t) * a + t * b;
-                }
-
-                // 2D Perlin Noise
-                module.perlin2 = function(x, y) {
-                    // Find unit grid cell containing point
-                    var X = Math.floor(x),
-                        Y = Math.floor(y);
-                    // Get relative xy coordinates of point within that cell
-                    x = x - X;
-                    y = y - Y;
-                    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
-                    X = X & 255;
-                    Y = Y & 255;
-
-                    // Calculate noise contributions from each of the four corners
-                    var n00 = gradP[X + perm[Y]].dot2(x, y);
-                    var n01 = gradP[X + perm[Y + 1]].dot2(x, y - 1);
-                    var n10 = gradP[X + 1 + perm[Y]].dot2(x - 1, y);
-                    var n11 = gradP[X + 1 + perm[Y + 1]].dot2(x - 1, y - 1);
-
-                    // Compute the fade curve value for x
-                    var u = fade(x);
-
-                    // Interpolate the four results
-                    return lerp(
-                        lerp(n00, n10, u),
-                        lerp(n01, n11, u),
-                        fade(y));
-                };
-
-                // 3D Perlin Noise
-                module.perlin3 = function(x, y, z) {
-                    // Find unit grid cell containing point
-                    var X = Math.floor(x),
-                        Y = Math.floor(y),
-                        Z = Math.floor(z);
-                    // Get relative xyz coordinates of point within that cell
-                    x = x - X;
-                    y = y - Y;
-                    z = z - Z;
-                    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
-                    X = X & 255;
-                    Y = Y & 255;
-                    Z = Z & 255;
-
-                    // Calculate noise contributions from each of the eight corners
-                    var n000 = gradP[X + perm[Y + perm[Z]]].dot3(x, y, z);
-                    var n001 = gradP[X + perm[Y + perm[Z + 1]]].dot3(x, y, z - 1);
-                    var n010 = gradP[X + perm[Y + 1 + perm[Z]]].dot3(x, y - 1, z);
-                    var n011 = gradP[X + perm[Y + 1 + perm[Z + 1]]].dot3(x, y - 1, z - 1);
-                    var n100 = gradP[X + 1 + perm[Y + perm[Z]]].dot3(x - 1, y, z);
-                    var n101 = gradP[X + 1 + perm[Y + perm[Z + 1]]].dot3(x - 1, y, z - 1);
-                    var n110 = gradP[X + 1 + perm[Y + 1 + perm[Z]]].dot3(x - 1, y - 1, z);
-                    var n111 = gradP[X + 1 + perm[Y + 1 + perm[Z + 1]]].dot3(x - 1, y - 1, z - 1);
-
-                    // Compute the fade curve value for x, y, z
-                    var u = fade(x);
-                    var v = fade(y);
-                    var w = fade(z);
-
-                    // Interpolate
-                    return lerp(
-                        lerp(
-                            lerp(n000, n100, u),
-                            lerp(n001, n101, u), w),
-                        lerp(
-                            lerp(n010, n110, u),
-                            lerp(n011, n111, u), w),
-                        v);
-                };
-
-            })(this);
-
             // ######################################################
 
 
