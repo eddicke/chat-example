@@ -57,7 +57,7 @@ io.on('connection', function(socket) {
       move: false,
       rotY: 0,
       lastpos: {x: 0, y: 5, z: 0},
-      threshold: 4,
+      threshold: 1,
       vel: 0
     }
     //limit the number of players available
