@@ -53,7 +53,8 @@ io.on('connection', function(socket) {
       id: cnts,
       fps: 4,
       from: 1,
-      to: 200
+      to: 200,
+      play: false
     }
     
        dirs[socket.id] = {
@@ -107,6 +108,7 @@ io.on('connection', function(socket) {
   socket.on('playClip', function(data) {
     var clip = clips[socket.id] || {};
    if(data){
+     clip.play = true
    clip.from = 320
      clip.to = 570
      clip.fps = 1
