@@ -48,6 +48,14 @@ io.on('connection', function(socket) {
     actions[socket.id] = {
       play: false
     }
+    
+    clips[socket.id] = {
+      id: 1,
+      fps: 4,
+      from: 1,
+      to: 200
+    }
+    
        dirs[socket.id] = {
       disp: {x: 0, y: 0, z: 0},
       color: {r: Math.random()*1, g: Math.random()*1, b: Math.random()*1},
@@ -82,15 +90,7 @@ io.on('connection', function(socket) {
  
     
   });
-  socket.on('anim', function(){
-    //var dir = dirs[socket.id] || {};
-    clips[socket.id] = {
-      id: 1,
-      fps: 4,
-      from: 1,
-      to: 200
-    }
-  })
+
   //remove players that are offline
    socket.on('disconnect', function(){
     var dir = dirs[socket.id] || {};
