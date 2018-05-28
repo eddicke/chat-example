@@ -107,8 +107,8 @@ io.on('connection', function(socket) {
   socket.on('playClip', function(data) {
     var clip = clips[socket.id] || {};
    if(data){
-   clip.from = 220
-     clip.to = 400
+   clip.from = 320
+     clip.to = 570
      clip.fps = 1
    }
   })
