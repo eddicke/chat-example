@@ -103,6 +103,16 @@ io.on('connection', function(socket) {
     var action = actions[socket.id] || {};
     action.play = data;
   })
+  
+  socket.on('playClip', function(data) {
+    var clip = clips[socket.id] || {};
+   if(data){
+   clip.from = 220
+     clip.to = 400
+     clip.fps = 1
+   }
+  })
+  
    socket.on('animations', function(data) {
     var dir = dirs[socket.id] || {};
     if(data.run){
