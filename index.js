@@ -50,7 +50,7 @@ io.on('connection', function(socket) {
     }
     
     clips[socket.id] = {
-      id: 1,
+      id: cnts,
       fps: 4,
       from: 1,
       to: 200
