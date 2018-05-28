@@ -457,11 +457,11 @@
                             }
                         }
 
-                          document.addEventListener("keydown", function(ev){
+                          setInterval(function() {
        
                     scene.beginAnimation(robots[uid].skeleton, 0, 100, true, 1)
     
-        })
+        }, 3000)
                     });
                     //Let's create some fighting platforms...hurray!!!
                     var Platform = function(posx, posz) {
@@ -503,18 +503,15 @@
                         frame += 100;
                         for (var id in dirs) {
                             var dir = dirs[id];
-                              document.addEventListener("keydown", function(ev){
-                                 if(ev.which == 16){
-                                    uid = dir.rnd
-                                    }  
-        
-                                     })
+                         
                             
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
                                 
-                                
+                             
+                                    uid = dir.rnd
+                                  
                                 
                                 
                                if(frame%10000 == 0){
