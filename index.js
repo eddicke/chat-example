@@ -83,9 +83,9 @@ io.on('connection', function(socket) {
     
   });
   socket.on('anim', function(){
-    var dir = dirs[socket.id] || {};
+    //var dir = dirs[socket.id] || {};
     clips[socket.id] = {
-      id: dir.rnd,
+      id: 1,
       fps: 4,
       from: 1,
       to: 200
@@ -172,7 +172,7 @@ setInterval(function(){
 
 setInterval(function(){
   io.sockets.emit('anim', clips);
-}, 1000/60)
+}, 3000)
 
 // setInterval(function() {
  
