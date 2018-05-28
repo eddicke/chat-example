@@ -14,6 +14,7 @@ var mrt = {
 var players = {};
 var dirs = {};
 var actions = {};
+var clips = {}
 var cnts = 0;
 var tgh = 0;
 //avoid duplicates
@@ -41,7 +42,7 @@ for (var i = 1; i <= 1 ; i++) {
 }
 /////////////////
 io.on('connection', function(socket) {
-
+  
   socket.on('new player', function() {
     cnts += 1
     actions[socket.id] = {
@@ -81,6 +82,15 @@ io.on('connection', function(socket) {
  
     
   });
+  socket.on('anim', function(){
+    var dir = dirs[socket.id] || {};
+    clips[socket.id] = {
+      id: dir.rnd,
+      fps: 4,
+      from: 1,
+      to: 200
+    }
+  })
   //remove players that are offline
    socket.on('disconnect', function(){
     var dir = dirs[socket.id] || {};
@@ -160,7 +170,9 @@ setInterval(function(){
   
 }, 1000/60)
 
-
+setInterval(function(){
+  io.sockets.emit('anim', clips);
+}, 3000)
 
 // setInterval(function() {
  
