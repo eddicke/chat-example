@@ -57,7 +57,7 @@ io.on('connection', function(socket) {
       move: false,
       rotY: 0,
       lastpos: {x: 0, y: 5, z: 0},
-      from: 1260,
+      from: 1115,
       to: 2326,
       clip: "idle",
       play: false,
