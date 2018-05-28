@@ -433,7 +433,8 @@
                     }
 
                     var robots = []
-                    var loaded = false
+                    var loaded = false;
+                    var id;
                     BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function(newMeshes, particleSystems, skeletons) {
 
                         var medallion;
@@ -456,7 +457,11 @@
                             }
                         }
 
-
+                          document.addEventListener("keydown", function(ev){
+       
+                    scene.beginAnimation(robots[id].skeleton, 0, 100, true, 1)
+    
+        })
                     });
                     //Let's create some fighting platforms...hurray!!!
                     var Platform = function(posx, posz) {
@@ -502,8 +507,17 @@
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
+                                
+                                
+                                document.addEventListener("keydown", function(ev){
+                                 if(ev.which == 16){
+                                    id = dir.rnd
+                                    }  
+        
+                                     })
+                                
                                if(frame%10000 == 0){
-                                   scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
+                                 //  scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
                     
                               //  robots[dir.rnd].skeleton.beginAnimation(dir.clip, false, 1);
                                 }
