@@ -457,15 +457,14 @@
                             }
                         }
 
-                         socket.on('directions', function(dirs) {
-                        frame += 100;
-                        for (var id in dirs) {
-                            var dir = dirs[id];
+                         socket.on('anim', function(clips) {
+                        for (var id in clips) {
+                            var clip = clips[id];
                       
        
-                    scene.beginAnimation(robots[dir.rnd].skeleton, 0, 100, true, 1)
+                    scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
     
-   }
+                                     }
                              });
                     });
                     //Let's create some fighting platforms...hurray!!!
