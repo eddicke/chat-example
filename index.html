@@ -435,7 +435,7 @@
                     var robots = []
                     var loaded = false;
                     var id;
-                    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function(newMeshes, particleSystems, skeletons) {
+                    BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function(newMeshes, particleSystems, skeletons) {
 
                         var medallion;
                         loaded = true;
@@ -465,7 +465,7 @@
                     });
                     //Let's create some fighting platforms...hurray!!!
                     var Platform = function(posx, posz) {
-                        BABYLON.SceneLoader.ImportMesh("", "https://cdn.rawgit.com/waverider404/game-assets/master/environ/", "scene.glb", scene, function(newMeshes) {
+                        BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/waverider404/game-assets/master/environ/", "scene.glb", scene, function(newMeshes) {
                             newMeshes[1].scaling.set(3, 3, 3)
                             newMeshes[1].checkCollisions = true
                             newMeshes[0].position.z = posz
