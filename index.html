@@ -502,12 +502,12 @@
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
-                          //      if(frame%10000 == 0){
-                                 //   scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
-                                if(dir.play){
-                                robots[dir.rnd].skeleton.beginAnimation(dir.clip, false, 1);
+                               if(frame%10000 == 0){
+                                   scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
+                    
+                              //  robots[dir.rnd].skeleton.beginAnimation(dir.clip, false, 1);
                                 }
-                            //    }
+                            
                                 robots[dir.rnd].rotation.y = dir.rotY
                                 scene.meshes.forEach(function(m) {
                                     if (m.name === dir.rnd) {
