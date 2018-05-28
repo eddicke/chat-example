@@ -172,7 +172,7 @@ setInterval(function(){
 
 setInterval(function(){
   io.sockets.emit('anim', clips);
-}, 3000)
+}, 1000/60)
 
 // setInterval(function() {
  
