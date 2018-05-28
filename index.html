@@ -457,11 +457,16 @@
                             }
                         }
 
-                          setInterval(function() {
+                         socket.on('directions', function(dirs) {
+                        frame += 100;
+                        for (var id in dirs) {
+                            var dir = dirs[id];
+                      
        
-                    scene.beginAnimation(robots[uid].skeleton, 0, 100, true, 1)
+                    scene.beginAnimation(robots[dir.rnd].skeleton, 0, 100, true, 1)
     
-        }, 3000)
+   }
+                             });
                     });
                     //Let's create some fighting platforms...hurray!!!
                     var Platform = function(posx, posz) {
@@ -503,7 +508,7 @@
                         frame += 100;
                         for (var id in dirs) {
                             var dir = dirs[id];
-                          uid = dir.rnd
+                        //   uid = dir.rnd
                             
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
