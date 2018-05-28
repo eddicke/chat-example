@@ -475,11 +475,12 @@
                           if(ev.which == 16){
                            run = true   
                                socket.emit("playClip", run);
+                              scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
                           }
                             
                         })
                             
-                    scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
+                    
     
                                      }
                              });
