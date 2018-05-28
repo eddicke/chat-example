@@ -457,21 +457,28 @@
                             }
                         }
                         var run = false
-                        document.addEventListener("keydown", function(ev){
+                        /*document.addEventListener("keydown", function(ev){
                           if(ev.which == 16){
                            run = true   
                           }
                             
-                        })
+                        })*/
                         
                         setInterval(function(){
-                            socket.emit("playClip", run);
+                      //      socket.emit("playClip", run);
                         }, 10)
                          socket.on('anim', function(clips) {
                         for (var id in clips) {
                             var clip = clips[id];
                      console.log("playing clip "+clip.id)
-                    
+                    document.addEventListener("keydown", function(ev){
+                          if(ev.which == 16){
+                           run = true   
+                               socket.emit("playClip", run);
+                          }
+                            
+                        })
+                            
                     scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
     
                                      }
