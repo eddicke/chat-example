@@ -460,7 +460,7 @@
                          socket.on('anim', function(clips) {
                         for (var id in clips) {
                             var clip = clips[id];
-                      
+                      alert(clip.id)
        
                     scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
     
