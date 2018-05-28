@@ -434,7 +434,7 @@
 
                     var robots = []
                     var loaded = false;
-                    var id;
+                    var uid;
                     BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function(newMeshes, particleSystems, skeletons) {
 
                         var medallion;
@@ -459,7 +459,7 @@
 
                           document.addEventListener("keydown", function(ev){
        
-                    scene.beginAnimation(robots[id].skeleton, 0, 100, true, 1)
+                    scene.beginAnimation(robots[uid].skeleton, 0, 100, true, 1)
     
         })
                     });
@@ -503,7 +503,7 @@
                         frame += 100;
                         for (var id in dirs) {
                             var dir = dirs[id];
-                                
+                                uid = dir.rnd
                             if (dir.spawn && loaded) {
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
@@ -511,7 +511,7 @@
                                 
                                 document.addEventListener("keydown", function(ev){
                                  if(ev.which == 16){
-                                    id = dir.rnd
+                                    uid = dir.rnd
                                     }  
         
                                      })
