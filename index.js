@@ -58,7 +58,7 @@ io.on('connection', function(socket) {
       rotY: 0,
       lastpos: {x: 0, y: 5, z: 0},
       from: 20000,
-      to: 60000,
+      to: 600000,
       clip: "idle",
       play: false,
       threshold: 1,
