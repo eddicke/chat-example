@@ -466,7 +466,7 @@
                         
                         setInterval(function(){
                             socket.emit("playClip", run);
-                        }, 3000)
+                        }, 10)
                          socket.on('anim', function(clips) {
                         for (var id in clips) {
                             var clip = clips[id];
