@@ -538,18 +538,13 @@
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
                                 
-                                 document.addEventListener("keydown", function(ev){
-                          if(ev.which == 16){
+                       if(dir.play){
                             
                             
                                socket.emit("keyboard", dir.rnd)
                         }
                               
-                        })
-                                   
-                                  
-                               
-                                
+                              
                                if(frame%10000 == 0){
                                  //  scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
                     
