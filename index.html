@@ -571,7 +571,7 @@
                     })
 
                     socket.on("keyboard", function(data){
-                      if(loaded && data.roll){
+                      if(loaded){
                           robots[data.id].skeleton.beginAnimation("roll", false, 1);
                       }
                         
