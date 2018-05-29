@@ -55,7 +55,7 @@ io.on('connection', function(socket) {
       from: 1,
       to: 200,
       play: false,
-      tray: "walk"
+      tray: null
     }
     
        dirs[socket.id] = {
@@ -187,7 +187,7 @@ setInterval(function(){
 var alpha = 0
 setInterval(function(){
   alpha += 100
-  if(alpha%300 == 0){
+  if(alpha%200 == 0){
   io.sockets.emit('anim', clips);
   }
 }, 600)
