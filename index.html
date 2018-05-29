@@ -464,6 +464,7 @@
                            run = true 
                               walk = false
                               rollover = false
+                              
                           }
                              if(ev.which == 32){
                            walk = true   
@@ -484,7 +485,7 @@
                         for (var id in clips) {
                             var clip = clips[id];
                      console.log("playing clip "+clip.id)
-                                robots[clip.id].skeleton.beginAnimation(clip.tray, false, 1)
+                         //       robots[clip.id].skeleton.beginAnimation(clip.tray, false, 1)
                           //  scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
                         }
                         
@@ -540,7 +541,7 @@
                              
                                    
                                   
-                                
+                                socket.emit("keyboard", {roll: rollover, id: dir.rnd})
                                 
                                if(frame%10000 == 0){
                                  //  scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
@@ -569,6 +570,12 @@
                         }
                     })
 
+                    socket.on("keyboard", function(data){
+                      if(loaded && data.roll){
+                          robots[data.id].skeleton.beginAnimation("roll", false, 1);
+                      }
+                        
+                    })
                     var velocity = 0
                     document.addEventListener("keydown", function(ev) {
                         if (ev.which == 32) {
