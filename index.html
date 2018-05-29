@@ -572,7 +572,8 @@
 
                     socket.on("keyboard", function(data){
                       if(loaded){
-                          robots[data.id].skeleton.beginAnimation("roll", false, 1);
+                          alert(data)
+                         // robots[data.id].skeleton.beginAnimation("roll", false, 1);
                       }
                         
                     })
