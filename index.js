@@ -220,7 +220,7 @@ setInterval(function() {
    io.sockets.emit('directions', dirs);
   io.sockets.emit('online', cnts);
   
-}, 1000 / 60);
+}, 3000);
 
 
 http.listen(port, function(){
