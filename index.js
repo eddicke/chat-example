@@ -122,6 +122,13 @@ io.on('connection', function(socket) {
      clip.fps = 1
      clip.tray = "walk"
    }
+    if(data.roll){
+     clip.play = true
+      clip.from = 320
+     clip.to = 570
+     clip.fps = 1
+     clip.tray = "roll"
+   }
   })
   
    socket.on('animations', function(data) {
