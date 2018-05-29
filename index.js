@@ -43,6 +43,9 @@ for (var i = 1; i <= 1 ; i++) {
 /////////////////
 io.on('connection', function(socket) {
   
+  socket.on("keyboard", function(data){
+    io.emit("keyboard" data)
+  })
   socket.on('new player', function() {
     cnts += 1
     actions[socket.id] = {
