@@ -584,8 +584,8 @@
                         })
                     socket.on("keyboard", function(data){
                       if(loaded){
-                          console.log("input from player with Id"+data)
-                         // robots[data.id].skeleton.beginAnimation("roll", false, 1);
+                       //   console.log("input from player with Id"+data)
+                         robots[data].skeleton.beginAnimation("roll", false, 1);
                       }
                         
                     })
