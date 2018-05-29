@@ -541,7 +541,7 @@
                              
                                    
                                   
-                                socket.emit("keyboard", {roll: rollover, id: dir.rnd})
+                               
                                 
                                if(frame%10000 == 0){
                                  //  scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
@@ -570,6 +570,11 @@
                         }
                     })
 
+                        document.addEventListener("keydown", function(ev){
+                          if(ev.which == 16){
+                               socket.emit("keyboard", "yess!!!!")
+                          }
+                        })
                     socket.on("keyboard", function(data){
                       if(loaded){
                           alert(data)
