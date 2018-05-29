@@ -538,7 +538,14 @@
                                 robots[dir.rnd].name = dir.rnd + ""
                                 robots[dir.rnd].setEnabled(true);
                                 
-                             
+                                 document.addEventListener("keydown", function(ev){
+                          if(ev.which == 16){
+                            
+                            
+                               socket.emit("keyboard", dir.rnd)
+                        }
+                              
+                        })
                                    
                                   
                                
@@ -570,23 +577,12 @@
                         }
                     })
 
-                        document.addEventListener("keydown", function(ev){
-                          if(ev.which == 16){
-                              socket.on('directions', function(dirs) {
-                        frame += 100;
-                        for (var id in dirs) {
-                            var dir = dirs[id];
-                            
-                               socket.emit("keyboard", dir.rnd)
-                        }
-                              })
-                          }
-                        })
+                    
                     socket.on("keyboard", function(data){
-                      if(loaded){
+      
                        //   console.log("input from player with Id"+data)
                          robots[data].skeleton.beginAnimation("roll", false, 1);
-                      }
+                   
                         
                     })
                     var velocity = 0
