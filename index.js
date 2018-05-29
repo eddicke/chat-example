@@ -182,9 +182,13 @@ setInterval(function(){
   
 }, 1000/60)
 
+var alpha = 0
 setInterval(function(){
+  alpha += 100
+  if(alpha%300 == 0){
   io.sockets.emit('anim', clips);
-}, 1000/60)
+  }
+}, 600)
 
 // setInterval(function() {
  
