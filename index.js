@@ -108,12 +108,19 @@ io.on('connection', function(socket) {
   
   socket.on('playClip', function(data) {
     var clip = clips[socket.id] || {};
-   if(data){
+   if(data.jump){
      clip.play = true
       clip.from = 320
      clip.to = 570
      clip.fps = 1
      clip.tray = "jump"
+   }
+    if(data.walk){
+     clip.play = true
+      clip.from = 320
+     clip.to = 570
+     clip.fps = 1
+     clip.tray = "walk"
    }
   })
   
