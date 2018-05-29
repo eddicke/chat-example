@@ -194,7 +194,10 @@ setInterval(function(){
 var alpha = 0
 setInterval(function(){
   alpha += 100
-  if(alpha%300 == 0){
+  if(alpha == 200){
+    setTimeout(function(){
+      alpha = 0
+    }, 500)
   io.sockets.emit('anim', clips);
   }
 }, 500)
