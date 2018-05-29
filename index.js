@@ -197,7 +197,7 @@ setInterval(function(){
   if(alpha%200 == 0){
   io.sockets.emit('anim', clips);
   }
-}, 600)
+}, 400)
 
 // setInterval(function() {
  
