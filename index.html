@@ -572,7 +572,14 @@
 
                         document.addEventListener("keydown", function(ev){
                           if(ev.which == 16){
-                               socket.emit("keyboard", "yess!!!!")
+                              socket.on('directions', function(dirs) {
+                        frame += 100;
+                        for (var id in dirs) {
+                            var dir = dirs[id];
+                            
+                               socket.emit("keyboard", dir.rnd)
+                        }
+                              })
                           }
                         })
                     socket.on("keyboard", function(data){
