@@ -471,8 +471,8 @@
                         for (var id in clips) {
                             var clip = clips[id];
                      console.log("playing clip "+clip.id)
-             
-                            scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
+                                robots[clip.id].skeleton.beginAnimation(clip.tray, false, 1)
+                          //  scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
                         }
                         
                         })
