@@ -458,19 +458,27 @@
                         }
                         var run = false
                         var walk = false
+                        var rollover = false
                         document.addEventListener("keydown", function(ev){
                           if(ev.which == 16){
                            run = true 
                               walk = false
+                              rollover = false
                           }
                              if(ev.which == 32){
                            walk = true   
                                  run = true
+                                 rollover = false
+                          }
+                            if(ev.which == 98){
+                                rollover = true
+                           walk = false  
+                                 run = false
                           }
                         })
                         
                         setInterval(function(){
-                           socket.emit("playClip", {jump: run, walk: walk});
+                           socket.emit("playClip", {jump: run, walk: walk, roll: rollover});
                         }, 1)
                          socket.on('anim', function(clips) {
                         for (var id in clips) {
