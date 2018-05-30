@@ -41,7 +41,13 @@ for (var i = 1; i <= 1 ; i++) {
   rndnum.push(getRandomIntNoDuplicates(1,10,duplicates))
 }
 /////////////////
+var user = 0
 io.on('connection', function(socket) {
+  user += 1
+  socket.id = user
+  socket.on("user", function(change, data){
+    io.emit("user", change, {user: socket.id, name: "Guest"})
+  })
   
   socket.on("keyboard", function(data){
     io.emit("keyboard", data)
