@@ -1,138 +1,140 @@
 <!doctype html>
 <html>
 
-<head>
-    <title>[--MEDALLION--]</title>
+    <head>
+        <title>[--MEDALLION--]</title>
 
-</head>
+    </head>
 
-<body>
-    <style>
-        html,
-        body {
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        #renderCanvas {
-            width: 100%;
-            height: 100%;
-            touch-action: none;
-        }
-    </style>
-    <title>A Multiplayer Game</title>
-    <canvas id="renderCanvas"></canvas>
-    <div>
-        <button>hide chatBox</button>
-        <ul id="messages"></ul>
-    </div>
-    <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-
-
-    <!------ chatBox ---------->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        #messages {
-            height: 200px;
-            width: 50%;
-            overflow: hidden;
-            overflow-y: scroll;
-        }
-
-        form {
-            background: #000;
-            padding: 3px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        form input {
-            border: 0;
-            padding: 10px;
-            width: 90%;
-            margin-right: .5%;
-        }
-
-        form button {
-            width: 9%;
-            background: rgb(130, 224, 255);
-            border: none;
-            padding: 10px;
-        }
-
-        #messages {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        #messages li {
-            padding: 5px 10px;
-        }
-
-        #messages li:nth-child(odd) {
-            background: #eee;
-        }
-
-        #messages {
-            margin-bottom: 40px
-        }
-    </style>
-
-
-    <!-- Babylon.js -->
-    <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
-    <script src="https://preview.babylonjs.com/cannon.js"></script>
-    <script src="https://preview.babylonjs.com/Oimo.js"></script>
-    <script src="https://preview.babylonjs.com/earcut.min.js"></script>
-    <script src="https://preview.babylonjs.com/babylon.js"></script>
-    <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
-    <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
-    <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
-    <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
-    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
-    <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
-    <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
-    <script src="https://raw.githack.com/eddicke/chat-example/master/dist/palmfronds.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="dist/gui.js"></script>
-
-    <script>
-        var canvas = document.getElementById("renderCanvas");
-        var engine = new BABYLON.Engine(canvas, true);
-
-        $(function() {
-            var socket = io();
-            socket.emit('new player');
-
-
-            //listen to keyboard event
-            var movement = {
-                up: false,
-                down: false,
-                left: false,
-                right: false
+    <body>
+        <style>
+            html,
+            body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
             }
-            document.addEventListener('keydown', function(event) {
-                switch (event.keyCode) {
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+
+        </style>
+        <title>A Multiplayer Game</title>
+        <canvas id="renderCanvas"></canvas>
+        <div>
+            <button>hide chatBox</button>
+            <ul id="messages"></ul>
+        </div>
+        <form action="">
+            <input id="m" autocomplete="off" /><button>Send</button>
+        </form>
+
+
+        <!------ chatBox ---------->
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            #messages {
+                height: 200px;
+                width: 50%;
+                overflow: hidden;
+                overflow-y: scroll;
+            }
+
+            form {
+                background: #000;
+                padding: 3px;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+
+            form input {
+                border: 0;
+                padding: 10px;
+                width: 90%;
+                margin-right: .5%;
+            }
+
+            form button {
+                width: 9%;
+                background: rgb(130, 224, 255);
+                border: none;
+                padding: 10px;
+            }
+
+            #messages {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            #messages li {
+                padding: 5px 10px;
+            }
+
+            #messages li:nth-child(odd) {
+                background: #eee;
+            }
+
+            #messages {
+                margin-bottom: 40px
+            }
+
+        </style>
+
+
+        <!-- Babylon.js -->
+        <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://raw.githack.com/eddicke/chat-example/master/dist/palmfronds.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="dist/gui.js"></script>
+
+        <script>
+            var canvas = document.getElementById("renderCanvas");
+            var engine = new BABYLON.Engine(canvas, true);
+
+            $(function () {
+                var socket = io();
+                socket.emit('new player');
+
+
+                //listen to keyboard event
+                var movement = {
+                    up: false
+                    , down: false
+                    , left: false
+                    , right: false
+                }
+                document.addEventListener('keydown', function (event) {
+                    switch (event.keyCode) {
                     case 65: // A
                         movement.left = true;
                         break;
@@ -145,10 +147,10 @@
                     case 83: // S
                         movement.down = true;
                         break;
-                }
-            });
-            document.addEventListener('keyup', function(event) {
-                switch (event.keyCode) {
+                    }
+                });
+                document.addEventListener('keyup', function (event) {
+                    switch (event.keyCode) {
                     case 65: // A
                         movement.left = false;
                         break;
@@ -161,519 +163,482 @@
                     case 83: // S
                         movement.down = false;
                         break;
-                }
-            });
-
-
-
-            //////***********BABYLONJS CODE************|||||||||||||||||
-            var url = "https://cdn.rawgit.com/BabylonJS/Extensions/master/Polyhedron/polyhedra.js";
-            var s = document.createElement("script");
-            s.src = url;
-            document.head.appendChild(s);
-
-            var createScene = function() {
-                var scene = new BABYLON.Scene(engine);
-                //loading gui
-                engine.displayLoadingUI();
-                engine.loadingUIText = "Wait...";
-                var percentage = 0
-                setInterval(function() {
-                    percentage += 1;
-                    engine.loadingUIText = "Loading assets..." + percentage + "%";
-                }, 1000)             
-                ///////////////////////////////////////
-                scene.clearColor = new BABYLON.Color3(.5, .5, .5);
-                scene.collisionsEnabled = true
-                var camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 50, BABYLON.Vector3.Zero(), scene);
-                camera.attachControl(canvas, true);
-                camera.setPosition(new BABYLON.Vector3(0, 5, -10));
-                camera.keysUp = [];
-                camera.keysDown = [];
-                camera.upperBetaLimit = 2.2
-                camera.lowerBetaLimit = .5
-          
-                var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-                light.intensity = 0.7;
-
-                var pl = new BABYLON.PointLight("pl", BABYLON.Vector3.Zero(), scene);
-                pl.diffuse = new BABYLON.Color3(1, 1, 1);
-                pl.specular = new BABYLON.Color3(1, 1, 1);
-                pl.intensity = 0.8;
-                var roof1 = new BABYLON.StandardMaterial("texture3", scene);
-                roof1.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/4ab67d7440051fc6392793a6e73d43e8--floor-texture-d-texture.jpg", scene);
-                roof1.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
-                roof1.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
-
-                var floormat = new BABYLON.StandardMaterial("texture3", scene);
-                floormat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/11733.jpg", scene);
-                floormat.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
-                floormat.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
-
-                //Define a material
-                var f = new BABYLON.StandardMaterial("material0", scene);
-                f.diffuseColor = new BABYLON.Color3(0.75, 0, 0);
-                // f.diffuseTexture=new BABYLON.Texture("nugget.png",scene);
-                var ba = new BABYLON.StandardMaterial("material1", scene);
-                ba.diffuseColor = new BABYLON.Color3(0, 0, 0.75);
-                var l = new BABYLON.StandardMaterial("material2", scene);
-                l.diffuseColor = new BABYLON.Color3(0, 0.75, 0.75);
-                var r = new BABYLON.StandardMaterial("material3", scene);
-                r.diffuseColor = new BABYLON.Color3(0, 0, 0.75);
-                var t = new BABYLON.StandardMaterial("material4", scene);
-                t.diffuseColor = new BABYLON.Color3(0, 0.75, 0);
-                var bo = new BABYLON.StandardMaterial("material5", scene);
-                bo.diffuseColor = new BABYLON.Color3(1, 1, 0);
-                //put into one
-                var multi = new BABYLON.MultiMaterial("nuggetman", scene);
-                multi.subMaterials.push(floormat);
-                multi.subMaterials.push(ba);
-                multi.subMaterials.push(l);
-                multi.subMaterials.push(floormat);
-                multi.subMaterials.push(t);
-                multi.subMaterials.push(roof1);
-
-                var mat = new BABYLON.StandardMaterial("mat1", scene);
-                mat.alpha = 1.0;
-                mat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 1.0);
-                var roof1 = new BABYLON.StandardMaterial("texture3", scene);
-                roof1.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/4ab67d7440051fc6392793a6e73d43e8--floor-texture-d-texture.jpg", scene);
-                roof1.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
-                roof1.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
-
-                var floormat = new BABYLON.StandardMaterial("texture3", scene);
-                floormat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/11733.jpg", scene);
-                floormat.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
-                floormat.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
-
-                var wallmat = new BABYLON.StandardMaterial("texture3", scene);
-                wallmat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/techwall.png", scene);
-                //sky
-                var skybox = BABYLON.Mesh.CreateBox("skyBox", 5000.0, scene);
-                var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-                skyboxMaterial.backFaceCulling = false;
-                skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://www.babylonjs-playground.com/textures/skybox4", scene);
-                skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-                skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-                skyboxMaterial.disableLighting = true;
-                skybox.material = skyboxMaterial;
-                //animate skybox
-                scene.registerBeforeRender(function() {
-                    skybox.rotation.y += .003;
-                })
-                s.onload = function() {
-
-
-                    var polygons = [];
-                    var rotations = [];
-
-                    for (var p in POLYHEDRA) {
-
-                        var polyhedron = POLYHEDRA[p];
-                        polygons.push(polyhedron)
-                        console.log(polygons[2])
-
-
                     }
-                    var box = new BABYLON.Mesh.CreateBox("b", 48, scene)
-                    var polygon = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
-                        custom: polygons[22],
-                        size: 20
-                    }, scene);
-                    polygon.convertToFlatShadedMesh();
-                    polygon.material = mat;
-                    box.visibility = .5
-                    polygon.position.y = 17
+                });
 
-                    scene.onPointerDown = function(ev, pik) {
-                        if (pik.hit) console.log(pik.pickedPoint)
-                    }
-                    //{x: -13.527756941799105, y: 33.13796921583514, z: 9.047783788844669}
-                    camera.target.copyFrom(new BABYLON.Vector3(13.527756941799105, 42.13796921583514, 9.047783788844669))
-                    var box2 = new BABYLON.Mesh.CreateBox("b", 48, scene)
-                    //box2.scaling.set(3.5, .02, 3.5);
-                    box2.scaling.y = .02
-                    box2.position.y = 70
 
-                    var floor = new BABYLON.Mesh.CreateGround("floor", 6, 6, 2, scene)
-                    floor.position.y = 34
-                    floor.scaling.set(37, 4, 37)
-                    floor.checkCollisions = true;
-                    floor.material = floormat
 
-                    var polygon2 = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
-                        custom: polygons[22],
-                        size: 11
-                    }, scene);
-                    polygon2.convertToFlatShadedMesh();
-                    polygon2.material = mat;
-                    polygon2.rotation.x = 6.699999999999984
-                    polygon2.rotation.z = 24.95000000000022
-                    polygon2.position.y = 70
-                    polygon.rotation.x = 6.699999999999984
-                    polygon.rotation.z = 24.95000000000022
+                //////***********BABYLONJS CODE************|||||||||||||||||
+                var url = "https://cdn.rawgit.com/BabylonJS/Extensions/master/Polyhedron/polyhedra.js";
+                var s = document.createElement("script");
+                s.src = url;
+                document.head.appendChild(s);
 
-                    var bCSG2 = BABYLON.CSG.FromMesh(box2);
-                    var aCSG2 = BABYLON.CSG.FromMesh(polygon2);
+                var createScene = function () {
+                    var scene = new BABYLON.Scene(engine);
+                    //loading gui
+                    engine.displayLoadingUI();
+                    engine.loadingUIText = "Wait...";
+                    var percentage = 0
+                    setInterval(function () {
+                        percentage += 1;
+                        engine.loadingUIText = "Loading assets..." + percentage + "%";
+                    }, 1000)
+                    ///////////////////////////////////////
+                    scene.clearColor = new BABYLON.Color3(.5, .5, .5);
+                    scene.collisionsEnabled = true
+                    var camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 50, BABYLON.Vector3.Zero(), scene);
+                    camera.attachControl(canvas, true);
+                    camera.setPosition(new BABYLON.Vector3(0, 5, -10));
+                    camera.keysUp = [];
+                    camera.keysDown = [];
+                    camera.upperBetaLimit = 2.2
+                    camera.lowerBetaLimit = .5
 
-                    var subCSG2 = bCSG2.subtract(aCSG2);
-                    var base2 = subCSG2.toMesh("csg2", mat, scene);
-                    base2.scaling.set(4, .2, 4);
-                    base2.material = roof1
-                    scene.removeMesh(box2);
-                    scene.removeMesh(polygon2);
-                    var bCSG = BABYLON.CSG.FromMesh(box);
-                    var aCSG = BABYLON.CSG.FromMesh(polygon);
+                    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+                    light.intensity = 0.7;
 
-                    var subCSG = bCSG.subtract(aCSG);
-                    var base3 = subCSG.toMesh("csg2", mat, scene);
-                    base3.checkCollisions = true
-                    base3.scaling.set(4, 4, 4);
-                    base3.material = wallmat
-                    scene.removeMesh(box);
-                    scene.removeMesh(polygon);
-                    base2.checkCollisions = true
-                    var createSpawnPoint = function() {
-                        var box = new BABYLON.Mesh.CreateBox("b", 1.3, scene)
-                        box.position.z = -.5
+                    var pl = new BABYLON.PointLight("pl", BABYLON.Vector3.Zero(), scene);
+                    pl.diffuse = new BABYLON.Color3(1, 1, 1);
+                    pl.specular = new BABYLON.Color3(1, 1, 1);
+                    pl.intensity = 0.8;
+                    var roof1 = new BABYLON.StandardMaterial("texture3", scene);
+                    roof1.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/4ab67d7440051fc6392793a6e73d43e8--floor-texture-d-texture.jpg", scene);
+                    roof1.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                    roof1.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                    var floormat = new BABYLON.StandardMaterial("texture3", scene);
+                    floormat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/11733.jpg", scene);
+                    floormat.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                    floormat.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                    //Define a material
+                    var f = new BABYLON.StandardMaterial("material0", scene);
+                    f.diffuseColor = new BABYLON.Color3(0.75, 0, 0);
+                    // f.diffuseTexture=new BABYLON.Texture("nugget.png",scene);
+                    var ba = new BABYLON.StandardMaterial("material1", scene);
+                    ba.diffuseColor = new BABYLON.Color3(0, 0, 0.75);
+                    var l = new BABYLON.StandardMaterial("material2", scene);
+                    l.diffuseColor = new BABYLON.Color3(0, 0.75, 0.75);
+                    var r = new BABYLON.StandardMaterial("material3", scene);
+                    r.diffuseColor = new BABYLON.Color3(0, 0, 0.75);
+                    var t = new BABYLON.StandardMaterial("material4", scene);
+                    t.diffuseColor = new BABYLON.Color3(0, 0.75, 0);
+                    var bo = new BABYLON.StandardMaterial("material5", scene);
+                    bo.diffuseColor = new BABYLON.Color3(1, 1, 0);
+                    //put into one
+                    var multi = new BABYLON.MultiMaterial("nuggetman", scene);
+                    multi.subMaterials.push(floormat);
+                    multi.subMaterials.push(ba);
+                    multi.subMaterials.push(l);
+                    multi.subMaterials.push(floormat);
+                    multi.subMaterials.push(t);
+                    multi.subMaterials.push(roof1);
+
+                    var mat = new BABYLON.StandardMaterial("mat1", scene);
+                    mat.alpha = 1.0;
+                    mat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 1.0);
+                    var roof1 = new BABYLON.StandardMaterial("texture3", scene);
+                    roof1.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/4ab67d7440051fc6392793a6e73d43e8--floor-texture-d-texture.jpg", scene);
+                    roof1.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                    roof1.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                    var floormat = new BABYLON.StandardMaterial("texture3", scene);
+                    floormat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/11733.jpg", scene);
+                    floormat.diffuseTexture.uScale = 15.0; //Repeat 5 times on the Vertical Axes
+                    floormat.diffuseTexture.vScale = 15.0; //Repeat 5 times on the Horizontal Axes
+
+                    var wallmat = new BABYLON.StandardMaterial("texture3", scene);
+                    wallmat.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/eddicke/chat-example/master/assets/textures/techwall.png", scene);
+                    //sky
+                    var skybox = BABYLON.Mesh.CreateBox("skyBox", 5000.0, scene);
+                    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+                    skyboxMaterial.backFaceCulling = false;
+                    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://www.babylonjs-playground.com/textures/skybox4", scene);
+                    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+                    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+                    skyboxMaterial.disableLighting = true;
+                    skybox.material = skyboxMaterial;
+                    //animate skybox
+                    scene.registerBeforeRender(function () {
+                        skybox.rotation.y += .003;
+                    })
+                    s.onload = function () {
+
+
+                        var polygons = [];
+                        var rotations = [];
+
+                        for (var p in POLYHEDRA) {
+
+                            var polyhedron = POLYHEDRA[p];
+                            polygons.push(polyhedron)
+                            console.log(polygons[2])
+
+
+                        }
+                        var box = new BABYLON.Mesh.CreateBox("b", 48, scene)
                         var polygon = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
-                            custom: polygons[16],
-                            size: 1
+                            custom: polygons[22]
+                            , size: 20
                         }, scene);
                         polygon.convertToFlatShadedMesh();
+                        polygon.material = mat;
+                        box.visibility = .5
+                        polygon.position.y = 17
 
-                        var aCSG = BABYLON.CSG.FromMesh(box);
-                        var bCSG = BABYLON.CSG.FromMesh(polygon);
+                        scene.onPointerDown = function (ev, pik) {
+                            if (pik.hit) console.log(pik.pickedPoint)
+                        }
+                        //{x: -13.527756941799105, y: 33.13796921583514, z: 9.047783788844669}
+                        camera.target.copyFrom(new BABYLON.Vector3(13.527756941799105, 42.13796921583514, 9.047783788844669))
+                        var box2 = new BABYLON.Mesh.CreateBox("b", 48, scene)
+                        //box2.scaling.set(3.5, .02, 3.5);
+                        box2.scaling.y = .02
+                        box2.position.y = 70
+
+                        var floor = new BABYLON.Mesh.CreateGround("floor", 6, 6, 2, scene)
+                        floor.position.y = 34
+                        floor.scaling.set(37, 4, 37)
+                        floor.checkCollisions = true;
+                        floor.material = floormat
+
+                        var polygon2 = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
+                            custom: polygons[22]
+                            , size: 11
+                        }, scene);
+                        polygon2.convertToFlatShadedMesh();
+                        polygon2.material = mat;
+                        polygon2.rotation.x = 6.699999999999984
+                        polygon2.rotation.z = 24.95000000000022
+                        polygon2.position.y = 70
+                        polygon.rotation.x = 6.699999999999984
+                        polygon.rotation.z = 24.95000000000022
+
+                        var bCSG2 = BABYLON.CSG.FromMesh(box2);
+                        var aCSG2 = BABYLON.CSG.FromMesh(polygon2);
+
+                        var subCSG2 = bCSG2.subtract(aCSG2);
+                        var base2 = subCSG2.toMesh("csg2", mat, scene);
+                        base2.scaling.set(4, .2, 4);
+                        base2.material = roof1
+                        scene.removeMesh(box2);
+                        scene.removeMesh(polygon2);
+                        var bCSG = BABYLON.CSG.FromMesh(box);
+                        var aCSG = BABYLON.CSG.FromMesh(polygon);
 
                         var subCSG = bCSG.subtract(aCSG);
-                        var base = subCSG.toMesh("csg2", mat, scene);
-                        scene.removeMesh(box)
-                        polygon.scaling.set(.87, .87, .87)
-                        polygon.visibility = .5
-                        polygon.parent = base
-                        return base
-                    }
+                        var base3 = subCSG.toMesh("csg2", mat, scene);
+                        base3.checkCollisions = true
+                        base3.scaling.set(4, 4, 4);
+                        base3.material = wallmat
+                        scene.removeMesh(box);
+                        scene.removeMesh(polygon);
+                        base2.checkCollisions = true
+                        var createSpawnPoint = function () {
+                            var box = new BABYLON.Mesh.CreateBox("b", 1.3, scene)
+                            box.position.z = -.5
+                            var polygon = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
+                                custom: polygons[16]
+                                , size: 1
+                            }, scene);
+                            polygon.convertToFlatShadedMesh();
 
-                    var spawnpoint = new createSpawnPoint()
-                    spawnpoint.scaling.set(20, 20, 20)
-                    spawnpoint.position.set(1.3491115696702272, 44, 64.65881072193218)
+                            var aCSG = BABYLON.CSG.FromMesh(box);
+                            var bCSG = BABYLON.CSG.FromMesh(polygon);
 
-                    var spawnpoint2 = new createSpawnPoint()
-                    spawnpoint2.scaling.set(20, 20, 20)
-                    spawnpoint2.position.set(1.3491115696702272, 44, -64.65881072193218)
-                    spawnpoint2.rotation.y = Math.PI
-                    //sphere instance to ease camera tracking
-                    var sphere = new BABYLON.Mesh.CreateSphere("sp", 10, 1, scene);
-                    sphere.visibility = 0;
-                    //spawn the players
-                    //spawn the players
-                    var createCyberMetro = function(id) {
-                        var box = BABYLON.Mesh.CreateBox("player" + id, 2, scene);
-
-
-                        var sphere2 = BABYLON.Mesh.CreateBox("hand1", .5, scene);
-
-                        var sphere3 = BABYLON.Mesh.CreateBox("hand2", .5, scene);
-
-                        var sphere4 = BABYLON.Mesh.CreateSphere("head", 10, 1, scene);
-
-
-                        sphere2.scaling.y = 3.5
-                        sphere3.scaling.y = 3.5
-                        var direction = BABYLON.Vector3.Zero();
-
-                        var node = box;
-
-
-                        node.getDirectionToRef(BABYLON.Vector3.Left(), direction);
-
-                        sphere2.position.x = node.position.x + direction.x;
-                        sphere2.position.y = node.position.y + direction.y;
-                        sphere2.position.z = node.position.z + direction.z;
-
-                        node.getDirectionToRef(BABYLON.Vector3.Right(), direction);
-
-                        sphere3.position.x = node.position.x + direction.x;
-                        sphere3.position.y = node.position.y + direction.y;
-                        sphere3.position.z = node.position.z + direction.z;
-
-                        node.getDirectionToRef(BABYLON.Vector3.Up(), direction);
-
-                        sphere4.position.x = node.position.x + direction.x;
-                        sphere4.position.y = node.position.y + direction.y;
-                        sphere4.position.z = node.position.z + direction.z;
-                        this.hand1 = sphere2
-                        this.hand2 = sphere3
-                        this.head = sphere4
-                        this.body = box
-                        this.hand1.setParent(this.body)
-                        this.hand2.setParent(this.body)
-                        this.head.setParent(this.body)
-                        this.body.position.y = 40
-                        this.body.position.x = this.body.position.z = Math.random() * 5
-                        this.thruster = BABYLON.Mesh.CreateBox("box", 2, scene);
-                        this.thruster.scaling.y = .08
-                        this.thruster.position.y = 38.5
-                        this.thruster.setParent(this.body)
-                        return this.body
-                    }
-
-                    function createLoot() {
-                        var loot = BABYLON.Mesh.CreateBox("loots", 4, scene);
-                        loot.position.y = 34
-                        loot.material = wallmat
-                        return loot;
-                    }
-
-                    for (var k = 0; k < 5; k++) {
-                        var loots = new createLoot()
-                        loots.position.x = Math.random() * 37 * (k / 4)
-                        loots.position.z = Math.random() * 37 * (k / 4)
-                    }
-
-                    var robots = []
-                    var loaded = false;
-                    var uid;
-                    BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function(newMeshes, particleSystems, skeletons) {
-
-                        var medallion;
-                        loaded = true;
-                        engine.hideLoadingUI();
-                        for (var index = 0; index < newMeshes.length; index++) {
-                            if (newMeshes[index].skeleton) {
-                                medallion = newMeshes[index];
-                                for (var i = 0; i < 5; i++) {
-                                    var medallion2 = medallion.clone("medallion2");
-                                    medallion2.scaling.set(.004, .004, .004);
-                                    medallion2.rotation.y = Math.PI
-                                    medallion2.position.y = 35
-                                    medallion2.skeleton = medallion.skeleton.clone("clonedSkeleton");
-                                    //var walk = scene.beginAnimation(medallion2.skeleton, 312, 332, true, 1);
-                                    medallion2.setEnabled(false)
-                                    robots.push(medallion2)
-                                }
-                                medallion.dispose()
-                            }
+                            var subCSG = bCSG.subtract(aCSG);
+                            var base = subCSG.toMesh("csg2", mat, scene);
+                            scene.removeMesh(box)
+                            polygon.scaling.set(.87, .87, .87)
+                            polygon.visibility = .5
+                            polygon.parent = base
+                            return base
                         }
-                        var run = false
-                        var walk = false
-                        var rollover = false
-                        document.addEventListener("keydown", function(ev){
-                          if(ev.which == 16){
-                           run = true 
-                              walk = false
-                              rollover = false
-                              
-                          }
-                             if(ev.which == 32){
-                           walk = true   
-                                 run = true
-                                 rollover = false
-                          }
-                            if(ev.which == 98){
-                                rollover = true
-                           walk = false  
-                                 run = false
-                          }
-                        })
-                        
-                        setInterval(function(){
-                           socket.emit("playClip", {jump: run, walk: walk, roll: rollover});
-                        }, 1)
-                         socket.on('anim', function(clips) {
-                        for (var id in clips) {
-                            var clip = clips[id];
-                     console.log("playing clip "+clip.id)
-                         //       robots[clip.id].skeleton.beginAnimation(clip.tray, false, 1)
-                          //  scene.beginAnimation(robots[clip.id].skeleton, clip.from, clip.to, true, clip.fps)
+
+                        var spawnpoint = new createSpawnPoint()
+                        spawnpoint.scaling.set(20, 20, 20)
+                        spawnpoint.position.set(1.3491115696702272, 44, 64.65881072193218)
+
+                        var spawnpoint2 = new createSpawnPoint()
+                        spawnpoint2.scaling.set(20, 20, 20)
+                        spawnpoint2.position.set(1.3491115696702272, 44, -64.65881072193218)
+                        spawnpoint2.rotation.y = Math.PI
+                        //sphere instance to ease camera tracking
+                        var sphere = new BABYLON.Mesh.CreateSphere("sp", 10, 1, scene);
+                        sphere.visibility = 0;
+                        //spawn the players
+                        //spawn the players
+                        var createCyberMetro = function (id) {
+                            var box = BABYLON.Mesh.CreateBox("player" + id, 2, scene);
+
+
+                            var sphere2 = BABYLON.Mesh.CreateBox("hand1", .5, scene);
+
+                            var sphere3 = BABYLON.Mesh.CreateBox("hand2", .5, scene);
+
+                            var sphere4 = BABYLON.Mesh.CreateSphere("head", 10, 1, scene);
+
+
+                            sphere2.scaling.y = 3.5
+                            sphere3.scaling.y = 3.5
+                            var direction = BABYLON.Vector3.Zero();
+
+                            var node = box;
+
+
+                            node.getDirectionToRef(BABYLON.Vector3.Left(), direction);
+
+                            sphere2.position.x = node.position.x + direction.x;
+                            sphere2.position.y = node.position.y + direction.y;
+                            sphere2.position.z = node.position.z + direction.z;
+
+                            node.getDirectionToRef(BABYLON.Vector3.Right(), direction);
+
+                            sphere3.position.x = node.position.x + direction.x;
+                            sphere3.position.y = node.position.y + direction.y;
+                            sphere3.position.z = node.position.z + direction.z;
+
+                            node.getDirectionToRef(BABYLON.Vector3.Up(), direction);
+
+                            sphere4.position.x = node.position.x + direction.x;
+                            sphere4.position.y = node.position.y + direction.y;
+                            sphere4.position.z = node.position.z + direction.z;
+                            this.hand1 = sphere2
+                            this.hand2 = sphere3
+                            this.head = sphere4
+                            this.body = box
+                            this.hand1.setParent(this.body)
+                            this.hand2.setParent(this.body)
+                            this.head.setParent(this.body)
+                            this.body.position.y = 40
+                            this.body.position.x = this.body.position.z = Math.random() * 5
+                            this.thruster = BABYLON.Mesh.CreateBox("box", 2, scene);
+                            this.thruster.scaling.y = .08
+                            this.thruster.position.y = 38.5
+                            this.thruster.setParent(this.body)
+                            return this.body
                         }
-                        
-                        })
-                        
-                        
-                        
-                        var run = false
-document.addEventListener("keydown", function(ev){
-            if(ev.which == 32){
-              run = true
-        socket.emit("user", run, {user: "ooo", name: "Not a guest"})
-          
-       }
-  if(ev.which == 65){
-              run = false
-       socket.emit("user", run, {user: "ooo", name: "Not a guest"})
-   
-          
-       }
-          })
-        
-        setTimeout(function(){
-          //socket.emit("user", {user: "ooo", name: "Not a guest"})
-        }, 200)
-        socket.on("user", function(change, data){
-          var user = data.user;
-       
-              if(change){
-              data.name = "Guestss"
-              //alert("This is "+data.name+" with is "+user);
-            robots[user].skeleton.beginAnimation("jump", true, 1)
-              }
-          
-              if(!change){
-                data.name = "losser"
-                  robots[user].skeleton.beginAnimation("roll", true, 1)
-             //   alert("This is "+data.name+" with is "+user);
-              }
-          
-        })
-     
-                    });
-                    //Let's create some fighting platforms...hurray!!!
-                    var Platform = function(posx, posz) {
-                        BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/waverider404/game-assets/master/environ/", "scene.glb", scene, function(newMeshes) {
-                            newMeshes[1].scaling.set(3, 3, 3)
-                            newMeshes[1].checkCollisions = true
-                            newMeshes[0].position.z = posz
-                            newMeshes[0].position.x = posx
-                            newMeshes[0].position.y = 100
-                        });
-                    }
-                    var platform = new Platform(1, 1)
-                    /*for(var i = 0; i<5; i++){
-                    var plat = new Platform(Math.random()*900*(i/4), Math.random()*900*(i/4))
-                    }*/
-                    //send the orientation of the player to other clients
-                    var rotY = 0
-                    setInterval(function() {
-                        rotY = -4.69 - camera.alpha;
-                        socket.emit("locomotive", {
-                            rotAxis: rotY
-                        })
-                    }, 1000 / 60);
-                    //Lets animate the characters with various input
-                  var speedzone = false
-                  document.addEventListener("keydown", function(ev){
-                    if(ev.which == 16){
-                      speedzone = true
-                    }
-                  })
-                  
-                  setInterval(function(){
-                    socket.emit("animations", {run: speedzone})
-                  },1000/60)
-                    //initialize the new player and send data to other clients]
-                    var available = []
-                    var frame = 0
-                    socket.on('directions', function(dirs) {
-                        frame += 100;
-                        for (var id in dirs) {
-                            var dir = dirs[id];
-                        //   uid = dir.rnd
-                            
-                            if (dir.spawn && loaded) {
-                                robots[dir.rnd].name = dir.rnd + ""
-                                robots[dir.rnd].setEnabled(true);
-                                
-                       if(dir.play){
-                            
-                            
-                               socket.emit("keyboard", dir.rnd)
+
+                        function createLoot() {
+                            var loot = BABYLON.Mesh.CreateBox("loots", 4, scene);
+                            loot.position.y = 34
+                            loot.material = wallmat
+                            return loot;
                         }
-                              
-                              
-                               if(frame%10000 == 0){
-                                 //  scene.beginAnimation(robots[dir.rnd].skeleton, dir.from, dir.to, true,  dir.threshold);
-                    
-                              //  robots[dir.rnd].skeleton.beginAnimation(dir.clip, false, 1);
-                                }
-                            
-                                robots[dir.rnd].rotation.y = dir.rotY
-                                scene.meshes.forEach(function(m) {
-                                    if (m.name === dir.rnd) {
-                                        m.parent = sphere
+
+                        for (var k = 0; k < 5; k++) {
+                            var loots = new createLoot()
+                            loots.position.x = Math.random() * 37 * (k / 4)
+                            loots.position.z = Math.random() * 37 * (k / 4)
+                        }
+
+                        var robots = []
+                        var loaded = false;
+                        var uid;
+                        BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+
+                            var medallion;
+                            loaded = true;
+                            engine.hideLoadingUI();
+                            for (var index = 0; index < newMeshes.length; index++) {
+                                if (newMeshes[index].skeleton) {
+                                    medallion = newMeshes[index];
+                                    for (var i = 0; i < 5; i++) {
+                                        var medallion2 = medallion.clone("medallion2");
+                                        medallion2.scaling.set(.004, .004, .004);
+                                        medallion2.rotation.y = Math.PI
+                                        medallion2.position.y = 35
+                                        medallion2.skeleton = medallion.skeleton.clone("clonedSkeleton");
+                                        //var walk = scene.beginAnimation(medallion2.skeleton, 312, 332, true, 1);
+                                        medallion2.setEnabled(false)
+                                        robots.push(medallion2)
                                     }
-                                })
-
-                                //remove players that are offline or defeated
-                                if (dir.destroy) {
-                                    robots[dir.rnd].setEnabled(false);
-                                    available.push(robots[dir.rnd])
+                                    medallion.dispose()
                                 }
-                                if (available.length <= 1) {
-                                    robots[dir.rnd].setEnabled(true);
-                                }
-                                robots[dir.rnd].position.x = dir.lastpos.x
-                                robots[dir.rnd].position.z = dir.lastpos.z
                             }
+
+                            var run = false
+                            document.addEventListener("keydown", function (ev) {
+                                if (ev.which == 32) {
+                                    run = true
+                                    socket.emit("user", run, {
+                                        user: "ooo"
+                                        , name: "Not a guest"
+                                    })
+
+                                }
+                                if (ev.which == 65) {
+                                    run = false
+                                    socket.emit("user", run, {
+                                        user: "ooo"
+                                        , name: "Not a guest"
+                                    })
+
+
+                                }
+                            })
+
+                            socket.on("user", function (change, data) {
+                                var user = data.user;
+
+                                if (change) {
+                                    data.name = "Guestss"
+
+                                    robots[user].skeleton.beginAnimation("jump", true, 1)
+                                }
+
+                                if (!change) {
+                                    data.name = "losser"
+                                    robots[user].skeleton.beginAnimation("roll", true, 1)
+
+                                }
+
+                            })
+
+                        });
+                        //Let's create some fighting platforms...hurray!!!
+                        var Platform = function (posx, posz) {
+                            BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/waverider404/game-assets/master/environ/", "scene.glb", scene, function (newMeshes) {
+                                newMeshes[1].scaling.set(3, 3, 3)
+                                newMeshes[1].checkCollisions = true
+                                newMeshes[0].position.z = posz
+                                newMeshes[0].position.x = posx
+                                newMeshes[0].position.y = 100
+                            });
                         }
-                    })
+                        var platform = new Platform(1, 1)
+                        /*for(var i = 0; i<5; i++){
+                        var plat = new Platform(Math.random()*900*(i/4), Math.random()*900*(i/4))
+                        }*/
+                        //send the orientation of the player to other clients
+                        var rotY = 0
+                        setInterval(function () {
+                            rotY = -4.69 - camera.alpha;
+                            socket.emit("locomotive", {
+                                rotAxis: rotY
+                            })
+                        }, 1000 / 60);
+                        //Lets animate the characters with various input
+                        var speedzone = false
+                        document.addEventListener("keydown", function (ev) {
+                            if (ev.which == 16) {
+                                speedzone = true
+                            }
+                        })
 
-                    
-                    socket.on("keyboard", function(data){
-      
-                       //   console.log("input from player with Id"+data)
-                     //   setInterval(function(){
-                         robots[data].skeleton.beginAnimation("roll", false, 1);
-                     //   }, 3000)
-                        
-                    })
-                    var velocity = 0
-                    document.addEventListener("keydown", function(ev) {
-                        if (ev.which == 32) {
-                            velocity = -.5
+                        setInterval(function () {
+                            socket.emit("animations", {
+                                run: speedzone
+                            })
+                        }, 1000 / 60)
+                        //initialize the new player and send data to other clients]
+                        var available = []
+                        var frame = 0
+                        socket.on('directions', function (dirs) {
+                            frame += 100;
+                            for (var id in dirs) {
+                                var dir = dirs[id];
+                                //   uid = dir.rnd
 
-                        }
-                    })
-                    document.addEventListener("keyup", function(ev) {
-                        if (ev.which == 32) {
-                            velocity = 0
-                        }
-                    })
+                                if (dir.spawn && loaded) {
+                                    robots[dir.rnd].name = dir.rnd + ""
+                                    robots[dir.rnd].setEnabled(true);
 
-                    scene.registerBeforeRender(function() {
-                        sphere.rotation.y = rotY;
-                        sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
-                        camera.target.x = sphere.position.x
-                        camera.target.z = sphere.position.z
-                    })
-                    //send the sphere position to other clients
-                    setInterval(function() {
-                        socket.emit("getPosition", sphere.getAbsolutePosition())
-                    }, 1000 / 60);
-                }
-                return scene;
-            };
-            // ######################################################
+                                    if (dir.play) {
 
 
-            var scene = createScene()
+                                        socket.emit("keyboard", dir.rnd)
+                                    }
 
-            engine.runRenderLoop(function() {
-                if (scene) {
-                    scene.render();
-                }
+
+
+                                    robots[dir.rnd].rotation.y = dir.rotY
+                                    scene.meshes.forEach(function (m) {
+                                        if (m.name === dir.rnd) {
+                                            m.parent = sphere
+                                        }
+                                    })
+
+                                    //remove players that are offline or defeated
+                                    if (dir.destroy) {
+                                        robots[dir.rnd].setEnabled(false);
+                                        available.push(robots[dir.rnd])
+                                    }
+                                    if (available.length <= 1) {
+                                        robots[dir.rnd].setEnabled(true);
+                                    }
+                                    robots[dir.rnd].position.x = dir.lastpos.x
+                                    robots[dir.rnd].position.z = dir.lastpos.z
+                                }
+                            }
+                        })
+
+
+
+                        var velocity = 0
+                        document.addEventListener("keydown", function (ev) {
+                            if (ev.which == 32) {
+                                velocity = -.5
+
+                            }
+                        })
+                        document.addEventListener("keyup", function (ev) {
+                            if (ev.which == 32) {
+                                velocity = 0
+                            }
+                        })
+
+                        scene.registerBeforeRender(function () {
+                            sphere.rotation.y = rotY;
+                            sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
+                            camera.target.x = sphere.position.x
+                            camera.target.z = sphere.position.z
+                        })
+                        //send the sphere position to other clients
+                        setInterval(function () {
+                            socket.emit("getPosition", sphere.getAbsolutePosition())
+                        }, 1000 / 60);
+                    }
+                    return scene;
+                };
+                // ######################################################
+
+
+                var scene = createScene()
+
+                engine.runRenderLoop(function () {
+                    if (scene) {
+                        scene.render();
+                    }
+                });
+
+                // Resize
+                window.addEventListener("resize", function () {
+                    engine.resize();
+                });
+
+                //CHATBOX---------------><-----------------------------------------------
+
+                $('form')
+                    .submit(function () {
+                        socket.emit('chat message', $('#m')
+                            .val());
+                        $('#m')
+                            .val('');
+                        return false;
+                    });
+                socket.on('chat message', function (msg) {
+                    console.log(msg);
+                    $('#messages')
+                        .append($('<li>')
+                            .text(msg));
+                    window.scrollTo(0, document.body.scrollHeight);
+                });
             });
 
-            // Resize
-            window.addEventListener("resize", function() {
-                engine.resize();
-            });
-
-            //CHATBOX---------------><-----------------------------------------------
-
-            $('form').submit(function() {
-                socket.emit('chat message', $('#m').val());
-                $('#m').val('');
-                return false;
-            });
-            socket.on('chat message', function(msg) {
-                console.log(msg);
-                $('#messages').append($('<li>').text(msg));
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
