@@ -500,7 +500,7 @@ document.addEventListener("keydown", function(ev){
         socket.emit("user", run, {user: "ooo", name: "Not a guest"})
           
        }
-  if(ev.which == 16){
+  if(ev.which == 65){
               run = false
        socket.emit("user", run, {user: "ooo", name: "Not a guest"})
    
@@ -522,7 +522,7 @@ document.addEventListener("keydown", function(ev){
           
               if(!change){
                 data.name = "losser"
-                  robots[user].skeleton.beginAnimation("walk", true, 1)
+                  robots[user].skeleton.beginAnimation("jump", true, 1)
              //   alert("This is "+data.name+" with is "+user);
               }
           
