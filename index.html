@@ -490,6 +490,42 @@
                         }
                         
                         })
+                        
+                        
+                        
+                        var run = false
+document.addEventListener("keydown", function(ev){
+            if(ev.which == 32){
+              run = true
+        socket.emit("user", run, {user: "ooo", name: "Not a guest"})
+          
+       }
+  if(ev.which == 16){
+              run = false
+       socket.emit("user", run, {user: "ooo", name: "Not a guest"})
+   
+          
+       }
+          })
+        
+        setTimeout(function(){
+          //socket.emit("user", {user: "ooo", name: "Not a guest"})
+        }, 200)
+        socket.on("user", function(change, data){
+          var user = data.user;
+       
+              if(change){
+              data.name = "Guestss"
+              alert("This is "+data.name+" with is "+user);
+            
+              }
+          
+              if(!change){
+                data.name = "losser"
+                alert("This is "+data.name+" with is "+user);
+              }
+          
+        })
      
                     });
                     //Let's create some fighting platforms...hurray!!!
