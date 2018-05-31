@@ -437,6 +437,7 @@
                         var robots = []
                         var loaded = false;
                         var uid;
+                        var count = 0;
                         BABYLON.SceneLoader.ImportMesh("", "https://rawcdn.githack.com/eddicke/chat-example/master/assets/models/", "111newplayeruntitled.babylon", scene, function (newMeshes, particleSystems, skeletons) {
 
                             var medallion;
@@ -460,7 +461,7 @@
                             }
 
                             var run = false
-                            var count = 0
+                            var damage = false
                             document.addEventListener("keydown", function (ev) {
                                 if (ev.which == 32) {
                                     count += 1
@@ -472,15 +473,18 @@
                                     })
                                     }
                                 }
-                                /*if (ev.which == 65) {
-                                    run = false
-                                    socket.emit("user", run, {
+                               
+                                       if(ev.which == 66){
+                            count += 1
+                        if(count == 1){
+               							damage = true				
+                                        socket.emit("user", damage, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
-
-
-                                }*/
+                                }
+                         }
+                                
                             })
 
                              document.addEventListener("keyup", function(ev){
@@ -496,9 +500,13 @@
                                      }
                              })
                             
-                            socket.on("user", function (change, data) {
+                            socket.on("user", function (damage, change, data) {
                                 var user = data.user;
-
+                                if(damage){
+                                    scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
+                                    count = 0
+                                    });		
+                                }
                                 if (change) {
                                     data.name = "Guestss"
                                      scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1);	
