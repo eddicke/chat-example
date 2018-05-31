@@ -467,7 +467,7 @@
                                     count += 1
                                     if(count == 1){
                                     run = true
-                                    socket.emit("user", run, {
+                                    socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
@@ -477,7 +477,6 @@
                                        if(ev.which == 66){
                             count += 1
                         if(count == 1){
-                            run = false
                							damaged = true				
                                         socket.emit("user", damaged, run, {
                                         user: "ooo"
@@ -488,39 +487,22 @@
                                 
                             })
 
-                             document.addEventListener("keyup", function(ev){
-                       
-                     if(ev.which == 32){
-                        count = 0
-                           run = false
-                            socket.emit("user", run, {
-                                        user: "ooo"
-                                        , name: "Not a guest"
-                                    })
-                         
-                                     }
-                             })
                             
                             socket.on("user", function (damage, change, data) {
                                 var user = data.user;
                                 if(damage){
                                  //   alert(damage)
                                     scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
-                                    count = 0
+                                    count = 0;
+                                    scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                     });		
                                 }
                                 if (change) {
                                     data.name = "Guestss"
-                                     scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1);	
-                                    //robots[user].skeleton.beginAnimation("walk", true, 1)
-                                }else if (!change) {
-                                    data.name = "losser"
-                                    robots[user].skeleton.beginAnimation("power", true, 1)
-                                    
-                                    var walkAnim = scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1)
-                                    walkAnim.stop()
-                                    walkAnim.goToFrame(1);														
-                                    scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
+                                      scene.beginAnimation(robots[user].skeleton, 863, 891, false, 1, function(){
+                                         count = 0;
+                                         scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
+                                        });				
                                 }
 
                             })
