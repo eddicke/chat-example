@@ -468,7 +468,7 @@
                                     count += 1
                                     if(count == 1){
                                     run = true
-                                    socket.emit("user", rest, damaged, run, {
+                                    socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
@@ -479,7 +479,7 @@
                             count += 1
                         if(count == 1){
                							damaged = true				
-                                        socket.emit("user", rest, damaged, run, {
+                                        socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
@@ -491,7 +491,7 @@
                             
                             document.addEventListener("keyup", function (ev) {
                                 rest = true
-                                socket.emit("user", rest, damaged, run, {
+                                socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
@@ -514,9 +514,7 @@
                                         });				
                                    
                                 }
-                                   if(restpose){
-                                //       scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
-                                   }
+                                 
                             })
 
                         });
