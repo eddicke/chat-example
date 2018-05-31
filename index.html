@@ -452,7 +452,7 @@
                                         medallion2.rotation.y = Math.PI
                                         medallion2.position.y = 35
                                         medallion2.skeleton = medallion.skeleton.clone("clonedSkeleton");
-                                        //var walk = scene.beginAnimation(medallion2.skeleton, 312, 332, true, 1);
+                                        scene.beginAnimation(medallion2.skeleton, 283, 339, true, 1)
                                         medallion2.setEnabled(false)
                                         robots.push(medallion2)
                                     }
@@ -461,13 +461,14 @@
                             }
 
                             var run = false
+                            var rest = false
                             var damaged = false
                             document.addEventListener("keydown", function (ev) {
                                 if (ev.which == 32) {
                                     count += 1
                                     if(count == 1){
                                     run = true
-                                    socket.emit("user", damaged, run, {
+                                    socket.emit("user", rest, damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
@@ -478,7 +479,7 @@
                             count += 1
                         if(count == 1){
                							damaged = true				
-                                        socket.emit("user", damaged, run, {
+                                        socket.emit("user", rest, damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
@@ -488,23 +489,32 @@
                             })
 
                             
-                            socket.on("user", function (damage, change, data) {
+                            document.addEventListener("keyup", function (ev) {
+                                rest = true
+                                socket.emit("user", rest, damaged, run, {
+                                        user: "ooo"
+                                        , name: "Not a guest"
+                                    })
+                            })
+                            socket.on("user", function (restpose, damage, change, data) {
                                 var user = data.user;
                                 if(damage){
                                  //   alert(damage)
                                     scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
                                     count = 0;
-                                    scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
+                              //      scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                     });		
                                 }
                                 if (change) {
                                     data.name = "Guestss"
                                       scene.beginAnimation(robots[user].skeleton, 863, 891, false, 1, function(){
                                          count = 0;
-                                         scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
+                                      //   scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                         });				
                                 }
-
+                                    if(restpose){
+                                     scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
+                                    }
                             })
 
                         });
