@@ -45,8 +45,8 @@ var user = 0
 io.on('connection', function(socket) {
   user += 1
   socket.id = user
-  socket.on("user", function(restpose, damage, change, data){
-    io.emit("user", restpose, damage, change, {user: socket.id, name: "Guest"})
+  socket.on("user", function(damage, change, data){
+    io.emit("user", damage, change, {user: socket.id, name: "Guest"})
   })
   
   socket.on("keyboard", function(data){
