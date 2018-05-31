@@ -461,7 +461,7 @@
                             }
 
                             var run = false
-                            var damage = false
+                            var damaged = false
                             document.addEventListener("keydown", function (ev) {
                                 if (ev.which == 32) {
                                     count += 1
@@ -477,8 +477,9 @@
                                        if(ev.which == 66){
                             count += 1
                         if(count == 1){
-               							damage = true				
-                                        socket.emit("user", damage, run, {
+                            run = false
+               							damaged = true				
+                                        socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
