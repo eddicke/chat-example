@@ -461,7 +461,7 @@
 
                             var run = false
                             document.addEventListener("keydown", function (ev) {
-                                if (ev.which == 98) {
+                                if (ev.which == 66) {
                                     run = true
                                     socket.emit("user", run, {
                                         user: "ooo"
@@ -491,7 +491,7 @@
 
                                 if (!change) {
                                     data.name = "losser"
-                                    robots[user].skeleton.beginAnimation("roll", true, 1)
+                                    robots[user].skeleton.beginAnimation("power", true, 1)
 
                                 }
 
