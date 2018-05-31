@@ -499,24 +499,20 @@
                             socket.on("user", function (restpose, damage, change, data) {
                                 var user = data.user;
                                 if(damage){
-                                 //   alert(damage)
+                    
                                     scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
                                     count = 0;
                               //      scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                     });		
-                                     if(restpose){
-                                     scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
-                                    }
+                                    
                                 }
                                 if (change) {
-                                    data.name = "Guestss"
+                               
                                       scene.beginAnimation(robots[user].skeleton, 863, 891, false, 1, function(){
                                          count = 0;
                                       //   scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                         });				
-                                     if(restpose){
-                                     scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
-                                    }
+                                   
                                 }
                                    
                             })
