@@ -460,16 +460,19 @@
                             }
 
                             var run = false
+                            var count = 0
                             document.addEventListener("keydown", function (ev) {
-                                if (ev.which == 66) {
+                                if (ev.which == 32) {
+                                    count += 1
+                                    if(count == 1){
                                     run = true
                                     socket.emit("user", run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
-
+                                    }
                                 }
-                                if (ev.which == 65) {
+                                /*if (ev.which == 65) {
                                     run = false
                                     socket.emit("user", run, {
                                         user: "ooo"
@@ -477,9 +480,22 @@
                                     })
 
 
-                                }
+                                }*/
                             })
 
+                             document.addEventListener("keyup", function(ev){
+                       
+                     if(ev.which == 32){
+                        count = 0
+                           run = false
+                            socket.emit("user", run, {
+                                        user: "ooo"
+                                        , name: "Not a guest"
+                                    })
+                         
+                                     }
+                             })
+                            
                             socket.on("user", function (change, data) {
                                 var user = data.user;
 
@@ -492,7 +508,11 @@
                                 if (!change) {
                                     data.name = "losser"
                                     robots[user].skeleton.beginAnimation("power", true, 1)
-
+                                    
+                                    var walkAnim = scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1)
+                                    walkAnim.stop()
+                                    walkAnim.goToFrame(1);														
+                                    scene.beginAnimation(players[2].skeleton, 283, 339, true, 1)
                                 }
 
                             })
