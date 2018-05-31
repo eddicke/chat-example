@@ -504,6 +504,9 @@
                                     count = 0;
                               //      scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                     });		
+                                     if(restpose){
+                                     scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
+                                    }
                                 }
                                 if (change) {
                                     data.name = "Guestss"
@@ -511,10 +514,11 @@
                                          count = 0;
                                       //   scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                         });				
-                                }
-                                    if(restpose){
+                                     if(restpose){
                                      scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                     }
+                                }
+                                   
                             })
 
                         });
