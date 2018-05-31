@@ -504,6 +504,7 @@
                             socket.on("user", function (damage, change, data) {
                                 var user = data.user;
                                 if(damage){
+                                    alert(damage)
                                     scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
                                     count = 0
                                     });		
