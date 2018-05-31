@@ -513,16 +513,14 @@
                                     data.name = "Guestss"
                                      scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1);	
                                     //robots[user].skeleton.beginAnimation("walk", true, 1)
-                                }
-
-                                if (!change) {
-                                   /* data.name = "losser"
+                                }else if (!change) {
+                                    data.name = "losser"
                                     robots[user].skeleton.beginAnimation("power", true, 1)
                                     
                                     var walkAnim = scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1)
                                     walkAnim.stop()
                                     walkAnim.goToFrame(1);														
-                                    scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)*/
+                                    scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                 }
 
                             })
