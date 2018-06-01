@@ -490,8 +490,9 @@
 
                             
                            
-                            socket.on("user", function (restpose, damage, change, data) {
+                            socket.on("user", function (damage, change, data) {
                                 var user = data.user;
+                                console.log("this is user: "+user)
                                 if(damage){
                     console.log("damage!!!!!!!")
                                     scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
