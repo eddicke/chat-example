@@ -604,7 +604,7 @@
 
                         var velocity = 0
                         var velY = 0;
-                     //   var fly = false
+                        var fly = false
                         
                         document.addEventListener("keydown", function (ev) {
                             if (ev.which == 83) {
@@ -613,6 +613,7 @@
                             }
                             if(ev.which == 32){
                                 velY += 4;
+                                fly = true
                                 sphere.position.y = sphere.position.y + velY
                             }
                         })
@@ -621,12 +622,15 @@
                                 velocity = 0
                             }
                             if(ev.which == 32){
+                                fly = false
                                  scene.registerBeforeRender(function(){
+                                     if(!fly){
                                 if(sphere.position.y != 33){
                       velY -= 1;
 
                      sphere.position.y = velY
-                  }
+                        }
+                                     }
                                  })
                             }
                         })
