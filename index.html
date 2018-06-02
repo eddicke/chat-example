@@ -638,9 +638,9 @@
                             camera.target.z = sphere.position.z
                         })
                         //send the sphere position to other clients
-                         scene.registerBeforeRender(function(){
+                         setInterval(function(){
                             socket.emit("getPosition", sphere.getAbsolutePosition())
-                        });
+                        }, 1000/60);
                     }
                     return scene;
                 };
