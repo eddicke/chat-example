@@ -487,7 +487,7 @@
                          }
                                 
                             })
-
+                           
                             document.addEventListener("keyup", function (ev) {
                                 damaged = false	
                                 run = false
@@ -497,6 +497,7 @@
                                     })
                             })
                            
+                            
                             socket.on("user", function (damage, change, data) {
                                 var user = data.user;
                                 console.log("this is user: "+user)
@@ -600,15 +601,29 @@
 
 
                         var velocity = 0
+                        var velY = 0;
+                     //   var fly = false
+                        
                         document.addEventListener("keydown", function (ev) {
                             if (ev.which == 83) {
                                 velocity = -.5
 
                             }
+                            if(ev.which == 32){
+                                velY += 9;
+                                sphere.position.y = velY
+                            }
                         })
                         document.addEventListener("keyup", function (ev) {
                             if (ev.which == 83) {
                                 velocity = 0
+                            }
+                            if(ev.which == 32){
+                                if(sphere.position.y != 0){
+                      velY -= 1;
+
+                     sphere.position.y = velY
+                  }
                             }
                         })
 
