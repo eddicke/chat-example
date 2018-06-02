@@ -464,7 +464,7 @@
                             var rest = false
                             var damaged = false
                             document.addEventListener("keydown", function (ev) {
-                                if (ev.which == 65) {
+                                if (ev.which == 83) {
                                     count += 1
                                     if(count == 1){
                                     run = true
@@ -601,13 +601,13 @@
 
                         var velocity = 0
                         document.addEventListener("keydown", function (ev) {
-                            if (ev.which == 65) {
+                            if (ev.which == 83) {
                                 velocity = -.5
 
                             }
                         })
                         document.addEventListener("keyup", function (ev) {
-                            if (ev.which == 32) {
+                            if (ev.which == 83) {
                                 velocity = 0
                             }
                         })
