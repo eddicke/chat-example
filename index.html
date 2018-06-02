@@ -640,7 +640,7 @@
                         //send the sphere position to other clients
                         setInterval(function () {
                             socket.emit("getPosition", sphere.getAbsolutePosition())
-                        }, 1000 / 60);
+                        }, 5);
                     }
                     return scene;
                 };
