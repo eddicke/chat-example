@@ -611,7 +611,7 @@
 
                             }
                             if(ev.which == 32){
-                                velY += 9;
+                                velY += 4;
                                 sphere.position.y = velY
                             }
                         })
@@ -620,11 +620,13 @@
                                 velocity = 0
                             }
                             if(ev.which == 32){
+                                 scene.registerBeforeRender(function(){
                                 if(sphere.position.y != 0){
                       velY -= 1;
 
                      sphere.position.y = velY
                   }
+                                 })
                             }
                         })
 
