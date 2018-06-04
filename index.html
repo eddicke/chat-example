@@ -453,7 +453,7 @@
                                         medallion2.rotation.y = Math.PI
                                         medallion2.position.y = 35
                                         medallion2.skeleton = medallion.skeleton.clone("clonedSkeleton");
-                                        scene.beginAnimation(medallion2.skeleton, 283, 339, true, 1)
+                                       // scene.beginAnimation(medallion2.skeleton, 283, 339, true, 1)
                                         medallion2.setEnabled(false)
                                         robots.push(medallion2)
                                     }
@@ -489,14 +489,14 @@
                                 
                             })
                            
-                            document.addEventListener("keyup", function (ev) {
+                        /*    document.addEventListener("keyup", function (ev) {
                               //  damaged = false	
                               //  run = false
                                 socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
-                            })
+                            })*/
                            
                             
                             socket.on("user", function (damage, change, data) {
