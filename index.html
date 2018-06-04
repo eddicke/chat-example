@@ -469,6 +469,7 @@
                                     count += 1
                                     if(count == 1){
                                     run = true
+                                        damaged = false
                                     socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
@@ -479,7 +480,8 @@
                                        if(ev.which == 66){
                             count += 1
                         if(count == 1){
-               							damaged = true				
+               							damaged = true		
+                            run = false
                                         socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
@@ -489,14 +491,14 @@
                                 
                             })
                            
-                            document.addEventListener("keyup", function (ev) {
-                               damaged = false	
-                               run = false
+                     /*       document.addEventListener("keyup", function (ev) {
+                              // damaged = false	
+                              // run = false
                                 socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
-                            })
+                            })*/
                            
                             
                             socket.on("user", function (damage, change, data) {
