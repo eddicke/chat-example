@@ -490,8 +490,8 @@
                             })
                            
                             document.addEventListener("keyup", function (ev) {
-                                damaged = false	
-                                run = false
+                              //  damaged = false	
+                              //  run = false
                                 socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
@@ -503,7 +503,7 @@
                                 var user = data.user;
                                 console.log("this is user: "+user)
                                 if(damage){
-                    console.log("damage!!!!!!!")
+                  
                                     scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
                                     count = 0;
                               //      scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
@@ -511,7 +511,7 @@
                                     
                                 }
                                 if (change) {
-                                console.log("change!!!!!!!")
+                            
                                       scene.beginAnimation(robots[user].skeleton, 863, 891, false, 1, function(){
                                          count = 0;
                                       //   scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
