@@ -203,23 +203,17 @@ setInterval(function(){
   
 }, 1000/60)
 
-var alpha = 0
+
 setInterval(function(){
-  alpha += 100
-  if(alpha == 200){
-    setTimeout(function(){
-      alpha = 0
-    }, 500)
   io.sockets.emit('anim', clips);
-  }
-}, 500)
+}, 3000)
 
 // setInterval(function() {
  
 //}, 1000 / 60);
 setInterval(function() {
     io.sockets.emit('playAnimations', actions);
-}, 4000);
+}, 1000/60);
 
 setInterval(function() {
   
