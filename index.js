@@ -206,7 +206,7 @@ setInterval(function(){
 
 setInterval(function(){
   io.sockets.emit('anim', clips);
-}, 3000)
+}, 500)
 
 // setInterval(function() {
  
