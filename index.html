@@ -611,24 +611,24 @@
                                 velocity = -.5
 
                             }
-                            if(ev.which == 32){
+                          /*  if(ev.which == 32){
                                 velY += 4;
                                 fly = true
                               sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(0, 150, 0), .05)
-                            }
+                            }*/
                         })
                         document.addEventListener("keyup", function (ev) {
                             if (ev.which == 83) {
                                 velocity = 0
                             }
-                            if(ev.which == 32){
+                        /*    if(ev.which == 32){
                                 fly = false
                                  scene.registerBeforeRender(function(){
                                      if(!fly){
                                 sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(sphere.position.x, 33, sphere.position.z), .05)
                                      }
                                  })
-                            }
+                            }*/
                         })
 
                         scene.registerBeforeRender(function () {
