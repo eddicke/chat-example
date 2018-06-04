@@ -469,7 +469,7 @@
                                     count += 1
                                     if(count == 1){
                                     run = true
-                                        damaged = false
+                                    //    damaged = false
                                     socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
@@ -481,7 +481,7 @@
                             count += 1
                         if(count == 1){
                							damaged = true		
-                            run = false
+                          //  run = false
                                         socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
@@ -506,7 +506,7 @@
                                 console.log("this is user: "+user)
                                 if(damage){
                   
-                                    scene.beginAnimation(robots[user].skeleton, 432, 510, false, 1, function(){
+                                    scene.beginAnimation(robots[user].skeleton, 432, 510, true, 1, function(){
                                     count = 0;
                               //      scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                     });		
@@ -514,7 +514,7 @@
                                 }
                                 if (change) {
                             
-                                      scene.beginAnimation(robots[user].skeleton, 863, 891, false, 1, function(){
+                                      scene.beginAnimation(robots[user].skeleton, 863, 891, true, 1, function(){
                                          count = 0;
                                       //   scene.beginAnimation(robots[user].skeleton, 283, 339, true, 1)
                                         });				
