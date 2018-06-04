@@ -489,14 +489,14 @@
                                 
                             })
                            
-                        /*    document.addEventListener("keyup", function (ev) {
-                              //  damaged = false	
-                              //  run = false
+                            document.addEventListener("keyup", function (ev) {
+                               damaged = false	
+                               run = false
                                 socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
                                     })
-                            })*/
+                            })
                            
                             
                             socket.on("user", function (damage, change, data) {
