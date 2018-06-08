@@ -616,7 +616,7 @@
                             if(ev.which == 32){
                                 velY += 4;
                                 fly = true
-                              sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(0, 150, 0), .02)
+                              sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(0, 150, 0), .008)
                             }
                         })
                         document.addEventListener("keyup", function (ev) {
@@ -627,7 +627,7 @@
                                 fly = false
                                  scene.registerBeforeRender(function(){
                                      if(!fly){
-                                sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(sphere.position.x, 33, sphere.position.z), .02)
+                                sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(sphere.position.x, 33, sphere.position.z), .008)
                                      }
                                  })
                             }
