@@ -634,10 +634,12 @@
                         })
 
                         scene.registerBeforeRender(function () {
+                            
                             sphere.rotation.y = rotY;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
                             camera.target.x = sphere.position.x
                             camera.target.z = sphere.position.z
+                            camera.target.y = sphere.position.y + 20
                         })
                         //send the sphere position to other clients
                          setInterval(function(){
