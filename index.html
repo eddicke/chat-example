@@ -469,7 +469,7 @@
                                     count += 1
                                     if(count == 1){
                                     run = true
-                                    //    damaged = false
+                                    damaged = false
                                     socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
@@ -481,7 +481,7 @@
                             count += 1
                         if(count == 1){
                							damaged = true		
-                          //  run = false
+                                        run = false
                                         socket.emit("user", damaged, run, {
                                         user: "ooo"
                                         , name: "Not a guest"
