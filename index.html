@@ -646,7 +646,7 @@ var VitessePerso = 2, forward, backwards;
                             psdmesh.rotation.y = rotY;
                             boundingbox.rotation.y = rotY;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
-                             if(!jetpack && boundingbox.position.y != 34){
+                             if(!jetpack && Math.floor(boundingbox.position.y) != 34){
                                boundingbox.position.y -= .5
                               }
 				 
