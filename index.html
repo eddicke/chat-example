@@ -299,7 +299,7 @@
                     var floor = new BABYLON.Mesh.CreateGround("floor", 6, 6, 2, scene)
                     floor.position.y = 34
                     floor.scaling.set(37, 4, 37)
-                   // floor.checkCollisions = true;
+                   floor.checkCollisions = true;
                     floor.material = floormat
 
                     var polygon2 = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
@@ -367,11 +367,11 @@
                     var sphere = new BABYLON.Mesh("m", scene); //empty mesh       
                     sphere.position.y = 34
 
-                    var boundingbox = new BABYLON.Mesh.CreateBox("sp", 4, scene);
-                    boundingbox.scaling.y = 4;
+                    var boundingbox = new BABYLON.Mesh.CreateBox("sp", 2, scene);
+                    boundingbox.scaling.y = 2;
                     boundingbox.checkCollisions = true
-                    boundingbox.visibility = 0;
-                    boundingbox.position.y = 34
+                    boundingbox.visibility = 0.5;
+                    boundingbox.position.y = 38
                     //spawn the players
                     //spawn the players
                     var createCyberMetro = function(id) {
@@ -612,6 +612,8 @@
                     var velY = 0;
                     var fly = false
                     var jetpack = false
+                    boundingbox.position.y = 38
+                  
                     document.addEventListener("keydown", function(ev) {
                         if (ev.which == 83) {
                             velocity = -.5
@@ -639,12 +641,13 @@
 
                     var VitessePerso = 2,
                         forward, backwards;
+                  boundingbox.position.y = 38
                     scene.registerBeforeRender(function() {
                         sphere.rotation.y = rotY;
                         psdmesh.rotation.y = rotY;
                         boundingbox.rotation.y = rotY;
                         sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
-                        if (!jetpack && Math.floor(boundingbox.position.y) != 34) {
+                        if (!jetpack && Math.floor(boundingbox.position.y) != 35) {
                             boundingbox.position.y -= .5
                         }
 
