@@ -617,7 +617,7 @@
                         document.addEventListener("keydown", function (ev) {
                             if (ev.which == 83) {
                                 velocity = -.5
-                                alpha = -.5
+                                alpha = -.05
                             }
                             if(ev.which == 32){
                                 velY += 4;
@@ -644,12 +644,15 @@
                          scene.registerBeforeRender(function(){
                             sphere.rotation.y = rotY;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
-                             psdmesh.locallyTranslate(new BABYLON.Vector3(0, 0, alpha));
                              
-                            boundingbox.moveWithCollisions(psdmesh.absolutePosition)
+                             psdmesh.locallyTranslate(new BABYLON.Vector3(0, 0, alpha));
+                             if(alpha != 0){
+                            boundingbox.moveWithCollisions(psdmesh.absolutePosition);
+                             }
                             camera.target.x = boundingbox.position.x
                             camera.target.z = boundingbox.position.z
                             camera.target.y = boundingbox.position.y+5
+                             
                         });
                         
                         //send the sphere position to other clients
