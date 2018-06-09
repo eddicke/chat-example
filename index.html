@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 
@@ -640,16 +641,18 @@
                             }
                         })
 
-
+var VitessePerso = 5, forward, backwards;
                          scene.registerBeforeRender(function(){
                             sphere.rotation.y = rotY;
                             psdmesh.rotation.y = rotY;
-                             
+                            boundingbox.parent = psdmesh
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
                              
-                             psdmesh.locallyTranslate(new BABYLON.Vector3(0, 0, alpha));
                              if(alpha != 0){
-                            boundingbox.moveWithCollisions(psdmesh.absolutePosition);
+                          //  boundingbox.moveWithCollisions(psdmesh.absolutePosition);
+                                  forward = new BABYLON.Vector3(parseFloat(Math.sin(parseFloat(boundingbox.rotation.y))) / VitessePerso, 0.5, parseFloat(Math.cos(parseFloat(boundingbox.rotation.y))) / VitessePerso);
+		forward = forward.negate();
+		boundingbox.moveWithCollisions(forward);
                              }
                             camera.target.x = boundingbox.position.x
                             camera.target.z = boundingbox.position.z
