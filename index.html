@@ -608,7 +608,8 @@
                         })
 
 
-
+                        var psdmesh = new BABYLON.Mesh("m", scene)
+                        var alpha = 0
                         var velocity = 0
                         var velY = 0;
                         var fly = false
@@ -616,7 +617,7 @@
                         document.addEventListener("keydown", function (ev) {
                             if (ev.which == 83) {
                                 velocity = -.5
-
+                                alpha = -.5
                             }
                             if(ev.which == 32){
                                 velY += 4;
@@ -627,6 +628,7 @@
                         document.addEventListener("keyup", function (ev) {
                             if (ev.which == 83) {
                                 velocity = 0
+                                alpha = 0
                             }
                            if(ev.which == 32){
                                 fly = false
@@ -637,8 +639,8 @@
                                  })
                             }
                         })
-var psdmesh = new BABYLON.Mesh("m", scene)
-var alpha = 0
+
+
                          scene.registerBeforeRender(function(){
                             sphere.rotation.y = rotY;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
