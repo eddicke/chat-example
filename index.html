@@ -373,7 +373,7 @@
                         var boundingbox = new BABYLON.Mesh.CreateBox("sp", 4, scene);
                         boundingbox.scaling.y = 4;
                         boundingbox.checkCollisions = true
-                        boundingbox.visibility = 0.5;
+                        boundingbox.visibility = 0;
                         boundingbox.position.y = 34
                         //spawn the players
                         //spawn the players
@@ -623,7 +623,7 @@
                             if(ev.which == 32){
                                 velY += 4;
                                 fly = true
-                              sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(0, 150, 0), .008)
+                              boundingbox.position = BABYLON.Vector3.Lerp(boundingbox.position, new BABYLON.Vector3(0, 150, 0), .008)
                             }
                         })
                         document.addEventListener("keyup", function (ev) {
@@ -635,7 +635,7 @@
                                 fly = false
                                  scene.registerBeforeRender(function(){
                                      if(!fly){
-                                sphere.position = BABYLON.Vector3.Lerp(sphere.position, new BABYLON.Vector3(sphere.position.x, 33, sphere.position.z), .008)
+                                boundingbox.position = BABYLON.Vector3.Lerp(boundingbox.position, new BABYLON.Vector3(boundingbox.position.x, 34, boundingbox.position.z), .008)
                                      }
                                  })
                             }
@@ -649,7 +649,7 @@ var VitessePerso = 2, forward, backwards;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
                              
                              if(alpha != 0){
-                          //  boundingbox.moveWithCollisions(psdmesh.absolutePosition);
+                         
                                   forward = new BABYLON.Vector3(parseFloat(Math.sin(parseFloat(boundingbox.rotation.y))) / VitessePerso, 0.5, parseFloat(Math.cos(parseFloat(boundingbox.rotation.y))) / VitessePerso);
 		forward = forward.negate();
 		boundingbox.moveWithCollisions(forward);
