@@ -330,12 +330,12 @@
 
                         var subCSG = bCSG.subtract(aCSG);
                         var base3 = subCSG.toMesh("csg2", mat, scene);
-                        base3.checkCollisions = true
+                       // base3.checkCollisions = true
                         base3.scaling.set(4, 4, 4);
                         base3.material = wallmat
                         scene.removeMesh(box);
                         scene.removeMesh(polygon);
-                        base2.checkCollisions = true
+                       //  base2.checkCollisions = true
                         var createSpawnPoint = function () {
                             var box = new BABYLON.Mesh.CreateBox("b", 1.3, scene)
                             box.position.z = -.5
@@ -601,7 +601,7 @@
                                         robots[dir.rnd].setEnabled(true);
                                     }
                                     robots[dir.rnd].position.x = dir.lastpos.x
-                                    robots[dir.rnd].position.y = dir.lastpos.y
+                                   // robots[dir.rnd].position.y = dir.lastpos.y
                                     robots[dir.rnd].position.z = dir.lastpos.z
                                 }
                             }
