@@ -299,7 +299,7 @@
                     var floor = new BABYLON.Mesh.CreateGround("floor", 6, 6, 2, scene)
                     floor.position.y = 34
                     floor.scaling.set(37, 4, 37)
-                   floor.checkCollisions = true;
+                    floor.checkCollisions = true;
                     floor.material = floormat
 
                     var polygon2 = BABYLON.MeshBuilder.CreatePolyhedron("nm", {
@@ -333,7 +333,7 @@
                     base3.material = wallmat
                     scene.removeMesh(box);
                     scene.removeMesh(polygon);
-                    //base2.checkCollisions = true
+                    base2.checkCollisions = true
                     var createSpawnPoint = function() {
                         var box = new BABYLON.Mesh.CreateBox("b", 1.3, scene)
                         box.position.z = -.5
@@ -613,7 +613,7 @@
                     var fly = false
                     var jetpack = false
                     boundingbox.position.y = 38
-                  
+
                     document.addEventListener("keydown", function(ev) {
                         if (ev.which == 83) {
                             velocity = -.5
@@ -641,14 +641,14 @@
 
                     var VitessePerso = 2,
                         forward, backwards;
-                  boundingbox.position.y = 38
+                    boundingbox.position.y = 38
                     scene.registerBeforeRender(function() {
                         sphere.rotation.y = rotY;
                         psdmesh.rotation.y = rotY;
                         boundingbox.rotation.y = rotY;
                         sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
                         if (!jetpack && Math.floor(boundingbox.position.y) != 35) {
-                            boundingbox.position.y -= .5
+                            boundingbox.moveWithCollisions(new BABYLON.Vector3(0, -.5, 0));
                         }
 
                         if (alpha != 0) {
