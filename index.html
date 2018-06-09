@@ -637,11 +637,14 @@
                                  })
                             }
                         })
-
+var psdmesh = new BABYLON.Mesh("m", scene)
+var alpha = -.05
                          scene.registerBeforeRender(function(){
                             sphere.rotation.y = rotY;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
-                            boundingbox.moveWithCollisions(sphere.absolutePosition)
+                             psdmesh.locallyTranslate(new BABYLON.Vector3(0, 0, alpha));
+                             
+                            boundingbox.moveWithCollisions(psdmesh.absolutePosition)
                             camera.target.x = boundingbox.position.x
                             camera.target.z = boundingbox.position.z
                             camera.target.y = boundingbox.position.y+5
