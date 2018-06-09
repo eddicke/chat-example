@@ -660,12 +660,12 @@
                         camera.target.x = boundingbox.position.x
                         camera.target.z = boundingbox.position.z
                         camera.target.y = boundingbox.position.y + 5
-
+                        socket.emit("getPosition", boundingbox.getAbsolutePosition())
                     });
 
                     //send the sphere position to other clients
                     setInterval(function() {
-                        socket.emit("getPosition", boundingbox.getAbsolutePosition())
+                        
                     }, 1000 / 80);
                 }
                 return scene;
