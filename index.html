@@ -645,7 +645,7 @@ var VitessePerso = 5, forward, backwards;
                          scene.registerBeforeRender(function(){
                             sphere.rotation.y = rotY;
                             psdmesh.rotation.y = rotY;
-                            boundingbox.parent = psdmesh
+                            boundingbox.rotation.y = rotY;
                             sphere.locallyTranslate(new BABYLON.Vector3(0, 0, velocity))
                              
                              if(alpha != 0){
