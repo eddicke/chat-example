@@ -447,8 +447,12 @@
                         var medallion;
                         loaded = true;
                         engine.hideLoadingUI();
+                        //Creation of a material with an image texture
+    var materialSphere3 = new BABYLON.StandardMaterial("texture3", scene);
+    materialSphere3.diffuseTexture = new BABYLON.Texture("textures/misc.jpg", scene);
+
                         for (var index = 0; index < newMeshes.length; index++) {
-                            newMeshes[index].material.dispose();
+                            newMeshes[index].material = materialSphere3
                             if (newMeshes[index].skeleton) {
                                 medallion = newMeshes[index];
                                 for (var i = 0; i < 5; i++) {
