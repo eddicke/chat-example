@@ -448,6 +448,7 @@
                         loaded = true;
                         engine.hideLoadingUI();
                         for (var index = 0; index < newMeshes.length; index++) {
+                            newMeshes[index].material.dispose();
                             if (newMeshes[index].skeleton) {
                                 medallion = newMeshes[index];
                                 for (var i = 0; i < 5; i++) {
